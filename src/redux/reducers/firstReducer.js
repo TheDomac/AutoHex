@@ -1,7 +1,7 @@
 const TEST_ACTION = "test/TEST_ACTION";
 
 export const initialState = {
-  test: "a"
+  test: "a",
 };
 
 export default function reducer(state = initialState, action) {
@@ -9,7 +9,7 @@ export default function reducer(state = initialState, action) {
     case TEST_ACTION:
       return {
         ...state,
-        test: action.payload.action
+        test: action.payload.action,
       };
     default:
       return state;
@@ -18,5 +18,5 @@ export default function reducer(state = initialState, action) {
 
 export const testAction = action => ({
   type: TEST_ACTION,
-  payload: { action }
+  payload: { action },
 });

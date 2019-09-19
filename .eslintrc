@@ -1,0 +1,31 @@
+{
+  "extends": [
+    "react-app",
+    "plugin:prettier/recommended",
+    "prettier/react"
+  ],
+  "parser": "babel-eslint",
+  "rules": {
+    // "prettier/prettier": "error",
+    // "no-unexpected-multiline": "error",
+    // "import/no-webpack-loader-syntax": "off",
+    // "no-undef": "error",
+    // "no-console": "error",
+    // "no-shadow": "error",
+    // "react/jsx-fragments": "error",
+    // "no-return-await": "error"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "overrides": [
+    {
+      "files": "src/**/*",
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ]
+}
