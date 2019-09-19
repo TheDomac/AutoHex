@@ -13,7 +13,7 @@
     // "no-console": "error",
     // "no-shadow": "error",
     // "react/jsx-fragments": "error",
-    // "no-return-await": "error"
+    "no-const-assign": "error"
   },
   "settings": {
     "react": {
