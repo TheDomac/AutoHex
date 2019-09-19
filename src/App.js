@@ -1,6 +1,5 @@
 import React from 'react';
 import { last } from "lodash"
-import logo from './logo.svg';
 import './App.css';
 
 import fields from "./common/consts/fields"
@@ -15,7 +14,9 @@ function steps(startFieldId, endFieldId) {
     const lastId = last(path)
     if(fields[lastId].neighborFieldsIds.includes(endFieldId)) { foundPaths.push(path); }
 
-    const newPathsFromThisPath = fields[lastId].neighborFieldsIds.map(id => [...path, id])
+    const newPathsFromThisPath = fields[lastId].neighborFieldsIds
+      .map(id => [...path, id])
+      .filter(path => !path.includes(startFieldId) && !path.includes(endFieldId))
 
     return [...prev, ...newPathsFromThisPath]
   }, [])
@@ -34,22 +35,7 @@ function steps(startFieldId, endFieldId) {
 function App() {
   console.log(steps(1, 10))
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div />
   );
 }
 
