@@ -8,22 +8,28 @@ const getPathsBetweenTwoPoints = (startFieldId, endFieldId) => {
   }
 
   let foundPaths = [];
+
   let accumulatedPaths = fields[startFieldId].neighborFieldsIds.map(id => [id]);
 
+  let idsCheckedSoFar = [startFieldId];
+
   while (foundPaths.length === 0) {
-    const newAccumulatedPaths = accumulatedPaths.reduce((prev, path) => {
+    const reduced = accumulatedPaths.reduce((prev, path) => {
       const lastId = last(path);
       if (fields[lastId].neighborFieldsIds.includes(endFieldId)) {
         foundPaths.push(path);
       }
 
-      const newPathsFromThisPath = fields[lastId].neighborFieldsIds
-        .map(id => [...path, id])
-        .filter(p => !p.includes(startFieldId) && !p.includes(endFieldId));
+      idsCheckedSoFar.push(lastId);
+
+      const newPathsFromThisPath = fields[lastId].neighborFieldsIds.map(id => [...path, id]);
 
       return [...prev, ...newPathsFromThisPath];
     }, []);
-    accumulatedPaths = newAccumulatedPaths;
+
+    const filtered = reduced.filter(path => !idsCheckedSoFar.includes(last(path)));
+
+    accumulatedPaths = filtered;
   }
 
   return foundPaths;

@@ -13,7 +13,7 @@
     "no-console": "error",
     "no-shadow": "error",
     "react/jsx-fragments": "error",
-    "no-unused-vars": "error",
+    "no-unused-vars": 1,
     "no-const-assign": "error"
   },
   "settings": {
