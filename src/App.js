@@ -1,9 +1,9 @@
 import React from "react";
 
-import getPathsBetweenTwoPoints from "common/utils/getPathsBetweenTwoPoints";
+import getPathsBetweenTwoSlots from "common/utils/getPathsBetweenTwoSlots";
 
 function App() {
-  console.log(getPathsBetweenTwoPoints(1, 21));
+  console.log(getPathsBetweenTwoSlots(1, 21));
   return <div />;
 }
 

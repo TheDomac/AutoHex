@@ -1,28 +1,28 @@
 import { last } from "lodash";
 
-import fields from "../consts/fields";
+import slots from "../consts/slots";
 
-const getPathsBetweenTwoPoints = (startFieldId, endFieldId) => {
-  if (fields[startFieldId].neighborFieldsIds.includes(endFieldId)) {
+const getPathsBetweenTwoSlots = (startSlotId, endSlotId) => {
+  if (slots[startSlotId].neighborSlotsIds.includes(endSlotId)) {
     return [];
   }
 
   let foundPaths = [];
 
-  let accumulatedPaths = fields[startFieldId].neighborFieldsIds.map(id => [id]);
+  let accumulatedPaths = slots[startSlotId].neighborSlotsIds.map(id => [id]);
 
-  let idsCheckedSoFar = [startFieldId];
+  let idsCheckedSoFar = [startSlotId];
 
   while (foundPaths.length === 0) {
     const reduced = accumulatedPaths.reduce((prev, path) => {
       const lastId = last(path);
-      if (fields[lastId].neighborFieldsIds.includes(endFieldId)) {
+      if (slots[lastId].neighborSlotsIds.includes(endSlotId)) {
         foundPaths.push(path);
       }
 
       idsCheckedSoFar.push(lastId);
 
-      const newPathsFromThisPath = fields[lastId].neighborFieldsIds.map(id => [...path, id]);
+      const newPathsFromThisPath = slots[lastId].neighborSlotsIds.map(id => [...path, id]);
 
       return [...prev, ...newPathsFromThisPath];
     }, []);
@@ -35,4 +35,4 @@ const getPathsBetweenTwoPoints = (startFieldId, endFieldId) => {
   return foundPaths;
 };
 
-export default getPathsBetweenTwoPoints;
+export default getPathsBetweenTwoSlots;

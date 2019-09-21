@@ -1,8 +1,5 @@
-import fields from "../consts/fields";
+// import slots from "common/consts/slots";
 
-const setupBoard = (player1, player2) => {
-  const a = 1;
-  a = 2;
-};
+const setupBoard = (player1, player2) => {};
 
 export default setupBoard;

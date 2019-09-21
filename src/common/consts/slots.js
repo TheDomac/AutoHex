@@ -1,0 +1,25 @@
+const slots = {
+  1: { neighborSlotsIds: [2, 8, 9] },
+  2: { neighborSlotsIds: [1, 9, 10, 3] },
+  3: { neighborSlotsIds: [2, 10, 11, 4] },
+  4: { neighborSlotsIds: [3, 11, 12, 5] },
+  5: { neighborSlotsIds: [4, 12, 13, 6] },
+  6: { neighborSlotsIds: [5, 13, 14, 7] },
+  7: { neighborSlotsIds: [6, 14] },
+  8: { neighborSlotsIds: [1, 9, 15] },
+  9: { neighborSlotsIds: [1, 2, 8, 10, 15, 16] },
+  10: { neighborSlotsIds: [2, 3, 9, 11, 16, 17] },
+  11: { neighborSlotsIds: [3, 4, 10, 12, 17, 18] },
+  12: { neighborSlotsIds: [4, 5, 11, 13, 18, 19] },
+  13: { neighborSlotsIds: [5, 6, 12, 14, 19, 20] },
+  14: { neighborSlotsIds: [6, 7, 13, 20, 21] },
+  15: { neighborSlotsIds: [8, 9, 16] },
+  16: { neighborSlotsIds: [15, 9, 10, 17] },
+  17: { neighborSlotsIds: [16, 10, 11, 18] },
+  18: { neighborSlotsIds: [17, 11, 12, 19] },
+  19: { neighborSlotsIds: [18, 12, 13, 20] },
+  20: { neighborSlotsIds: [19, 13, 14, 21] },
+  21: { neighborSlotsIds: [20, 14] },
+};
+
+export default slots;
