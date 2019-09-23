@@ -1,21 +1,28 @@
 import styled from "styled-components";
 
+export const HexWrapper = styled.div`
+  &:after {
+    content: "";
+    clear: both;
+    display: block;
+  }
+`;
+
 export const HexMain = styled.div`
   display: inline-block;
   text-align: left;
   float: left;
   position: relative;
   background-position: 50%;
-  border-left: 2px solid #111;
-  border-right: 2px solid #111;
+  border-left: 4px solid #111;
+  border-right: 4px solid #111;
+  margin: 24.25px 0;
+  margin-right: 4px;
   box-sizing: border-box;
 
   width: 84px;
   height: 48.5px;
-  margin: 24.25px 0;
   background-size: auto 87.7572px;
-  border-left-width: 4px;
-  border-right-width: 4px;
 
   &:after {
     position: absolute;
@@ -39,13 +46,11 @@ export const HexTop = styled.div`
   box-sizing: border-box;
 
   top: -29.6985px;
-  border-top-width: 5.6569px;
-  border-right-width: 5.6569px;
   width: 59.4px;
   height: 59.4px;
   left: 8.3px;
-  border-top: 2.8284px solid #111;
-  border-right: 2.8284px solid #111;
+  border-top: 4.6569px solid #111;
+  border-right: 4.6569px solid #111;
 
   &:after {
     position: absolute;
@@ -69,13 +74,11 @@ export const HexBottom = styled.div`
   box-sizing: border-box;
 
   bottom: -29.6985px;
-  border-bottom-width: 5.6569px;
-  border-left-width: 5.6569px;
   width: 59.4px;
   height: 59.4px;
   left: 8.3px;
-  border-bottom: 2.8284px solid #111;
-  border-left: 2.8284px solid #111;
+  border-bottom: 4.6569px solid #111;
+  border-left: 4.6569px solid #111;
 
   &:after {
     position: absolute;
