@@ -5,7 +5,8 @@ import { HexMain, HexTop, HexBottom } from "./hexSlot.styled";
 class HexSlot extends Component {
   render() {
     return (
-      <HexMain>
+      <HexMain first={this.props.first}>
+        {this.props.slot.id}
         <HexTop />
         <HexBottom />
       </HexMain>
