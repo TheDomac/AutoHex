@@ -1,13 +1,14 @@
 import styled from "styled-components";
 
 export const HexMain = styled.div`
+background-color: ${props => props.backgroundColor}
   display: inline-block;
   text-align: left;
   float: left;
   position: relative;
   background-position: 50%;
-  border-left: 4px solid #111;
-  border-right: 4px solid #111;
+  border-left: 4px solid ${props => props.borderColor};
+  border-right: 4px solid ${props => props.borderColor};;
   margin: 24.25px 0;
   margin-right: 4px;
   box-sizing: border-box;
@@ -41,8 +42,8 @@ export const HexTop = styled.div`
   width: 59.4px;
   height: 59.4px;
   left: 8.3px;
-  border-top: 4.6569px solid #111;
-  border-right: 4.6569px solid #111;
+  border-top: 4.6569px solid ${props => props.borderColor};
+  border-right: 4.6569px solid ${props => props.borderColor};
 
   &:after {
     position: absolute;
@@ -69,8 +70,8 @@ export const HexBottom = styled.div`
   width: 59.4px;
   height: 59.4px;
   left: 8.3px;
-  border-bottom: 4.6569px solid #111;
-  border-left: 4.6569px solid #111;
+  border-bottom: 4.6569px solid ${props => props.borderColor};
+  border-left: 4.6569px solid ${props => props.borderColor};
 
   &:after {
     position: absolute;

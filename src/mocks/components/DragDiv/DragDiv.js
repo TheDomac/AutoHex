@@ -6,29 +6,20 @@ const DragDiv = styled.div`
   width: 50px;
   height: 50px;
   background: blue;
+  color: white;
+  font-size: 25;
+  position: absolute;
+  z-index: 3;
 `;
 
-function DragDivComponent() {
-  const [props, drag] = useDrag({
-    item: { type: "dragDiv" },
+function DragDivComponent(props) {
+  const [{ isDragging }, drag] = useDrag({
+    item: { type: "typeExample" },
     collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
+      isDragging: monitor.isDragging(),
     }),
   });
-  console.log(props);
-  return (
-    <div
-      style={{
-        opacity: props.isDragging ? 0.5 : 1,
-        fontSize: 25,
-        fontWeight: "bold",
-        cursor: "move",
-      }}
-      ref={drag}
-    >
-      <DragDiv>{props.isDragging && "M"}</DragDiv>
-    </div>
-  );
+  return <DragDiv ref={drag}>{isDragging ? "yes" : "no"}</DragDiv>;
 }
 
 export default DragDivComponent;
