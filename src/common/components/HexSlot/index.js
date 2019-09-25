@@ -1,7 +1,7 @@
 import React from "react";
 import { useDrop } from "react-dnd";
 
-import { HexMain, HexTop, HexBottom } from "./HexSlot.styled";
+import Hexagon from "common/components/Hexagon";
 import DragDiv from "mocks/components/DragDiv/DragDiv";
 
 function HexSlot(props) {
@@ -16,16 +16,13 @@ function HexSlot(props) {
   });
 
   return (
-    <HexMain
+    <Hexagon
       ref={drop}
-      first={props.first}
       backgroundColor={isOver && canDrop ? "yellow" : "white"}
       borderColor={canDrop ? "green" : "#111"}
     >
       {props.unit && <DragDiv />}
-      <HexTop borderColor={canDrop ? "green" : "#111"} />
-      <HexBottom borderColor={canDrop ? "green" : "#111"} />
-    </HexMain>
+    </Hexagon>
   );
 }
 
