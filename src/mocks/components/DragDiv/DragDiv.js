@@ -14,7 +14,7 @@ const DragDiv = styled.div`
 
 function DragDivComponent(props) {
   const [{ isDragging }, drag] = useDrag({
-    item: { type: "typeExample" },
+    item: { type: "typeExample", id: props.unit.id },
     collect: monitor => ({
       isDragging: monitor.isDragging(),
     }),

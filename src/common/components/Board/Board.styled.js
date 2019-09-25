@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const HexFieldWrapper = styled.div`
+export const BoardWrapper = styled.div`
   &:after {
     content: "";
     clear: both;

@@ -293,6 +293,8 @@ module.exports = function(webpackEnv) {
         src: path.resolve(__dirname, '../src/'),
         common: path.resolve(__dirname, '../src/common'),
         mocks: path.resolve(__dirname, '../src/mocks'),
+        reducers: path.resolve(__dirname, '../src/redux/reducers'),
+        selectors: path.resolve(__dirname, '../src/redux/selectors'),
       },
       plugins: [
         // Adds support for installing with Plug'n'Play, leading to faster installs and adding
