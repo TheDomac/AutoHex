@@ -1,21 +1,38 @@
 import React from "react";
 import { useDrag } from "react-dnd";
+import { connect } from "react-redux";
 
+import { getUnitsOnBoard, getMyId } from "selectors/game";
 import Hexagon from "common/components/Hexagon/Hexagon";
+import getAdjacentEnemyUnits from "common/utils/getAdjacentEnemyUnits";
+import getPathsToClosestEnemyUnits from "common/utils/getPathsToClosestEnemyUnits";
 
 function HexUnitComponent(props) {
-  const [{ isDragging }, drag] = useDrag({
+  const [, drag] = useDrag({
     item: { type: "typeExample", id: props.unit.id },
     collect: monitor => ({
-      isDragging: monitor.isDragging(),
+      // isDragging: monitor.isDragging(),
     }),
   });
+  if (props.unit.playerId === props.myId) {
+    const adjacentEnemyUnits = getAdjacentEnemyUnits(props.unit, props.unitsOnBoard);
 
-  return (
-    <Hexagon backgroundColor="blue" ref={drag}>
-      {isDragging ? "yes" : "no"}
-    </Hexagon>
-  );
+    if (adjacentEnemyUnits.length > 0) {
+      console.log("adjacentEnemyUnits", adjacentEnemyUnits);
+    } else {
+      console.log(
+        "no adjacent units, closest:",
+        getPathsToClosestEnemyUnits(props.unit, props.unitsOnBoard),
+      );
+    }
+  }
+
+  return <Hexagon backgroundColor="blue" ref={drag} />;
 }
 
-export default HexUnitComponent;
+const mapStateToProps = state => ({
+  unitsOnBoard: getUnitsOnBoard(state),
+  myId: getMyId(state),
+});
+
+export default connect(mapStateToProps)(HexUnitComponent);

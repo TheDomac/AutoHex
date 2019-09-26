@@ -1,28 +1,28 @@
 import { last } from "lodash";
 
-import slots from "../consts/slots";
+import slots from "common/consts/slots";
 
 const getPathsBetweenTwoSlots = (startSlotId, endSlotId) => {
-  if (slots[startSlotId].neighborSlotsIds.includes(endSlotId)) {
+  if (slots[startSlotId].adjacentSlotsIds.includes(endSlotId)) {
     return [];
   }
 
   let foundPaths = [];
 
-  let accumulatedPaths = slots[startSlotId].neighborSlotsIds.map(id => [id]);
+  let accumulatedPaths = slots[startSlotId].adjacentSlotsIds.map(id => [id]);
 
   let idsCheckedSoFar = [startSlotId];
 
   while (foundPaths.length === 0) {
     const reduced = accumulatedPaths.reduce((prev, path) => {
       const lastId = last(path);
-      if (slots[lastId].neighborSlotsIds.includes(endSlotId)) {
+      if (slots[lastId].adjacentSlotsIds.includes(endSlotId)) {
         foundPaths.push(path);
       }
 
       idsCheckedSoFar.push(lastId);
 
-      const newPathsFromThisPath = slots[lastId].neighborSlotsIds.map(id => [...path, id]);
+      const newPathsFromThisPath = slots[lastId].adjacentSlotsIds.map(id => [...path, id]);
 
       return [...prev, ...newPathsFromThisPath];
     }, []);

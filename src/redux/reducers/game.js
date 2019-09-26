@@ -1,9 +1,12 @@
 import unitsOnBoard from "mocks/consts/unitsOnBoard";
+import { players, myId } from "mocks/consts/players";
 
 const MOVE_UNIT = "test/MOVE_UNIT";
 
 export const initialState = {
   unitsOnBoard,
+  players,
+  myId,
 };
 
 export default function reducer(state = initialState, action) {
