@@ -1,8 +1,8 @@
 import React from "react";
 import { useDrop } from "react-dnd";
 
-import Hexagon from "common/components/Hexagon";
-import DragDiv from "mocks/components/DragDiv/DragDiv";
+import Hexagon from "common/components/Hexagon/Hexagon";
+import HexUnit from "common/components/HexUnit/HexUnit";
 
 function HexSlot(props) {
   const [{ isOver, canDrop, unit }, drop] = useDrop({
@@ -15,14 +15,15 @@ function HexSlot(props) {
       unit: monitor.getItem(),
     }),
   });
-  return (
+
+  return props.unit ? (
+    <HexUnit unit={props.unit} />
+  ) : (
     <Hexagon
       ref={drop}
-      backgroundColor={isOver && canDrop ? "yellow" : "white"}
+      backgroundColor={isOver && canDrop && "yellow"}
       borderColor={canDrop ? "green" : "#111"}
-    >
-      {props.unit && <DragDiv unit={props.unit} />}
-    </Hexagon>
+    />
   );
 }
 

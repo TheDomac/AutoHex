@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import HexSlot from "common/components/HexSlot";
+import HexSlot from "common/components/HexSlot/HexSlot";
 import { BoardWrapper, HexRow } from "./Board.styled";
 import board from "common/consts/board";
 import { getUnitsOnBoard } from "selectors/game";
