@@ -1,57 +1,61 @@
-import { intersection, last } from "lodash";
+import { last } from "lodash";
 
 import slots from "common/consts/slots";
 
-const getPathsToClosestEnemyUnits = (unit, unitsOnBoard) => {
-  const enemyUnitsOnBoard = unitsOnBoard.filter(u => u.playerId !== unit.playerId);
-  console.log("START", unit, enemyUnitsOnBoard);
-
-  let accumulatedPaths = slots[unit.slotId].adjacentSlotsIds.map(id => [id]);
-  let foundClosestEnemyUnits = [];
-
-  let breaker = 0;
-
-  let idsCheckedSoFar = [unit.slotId];
-  while (foundClosestEnemyUnits.length === 0 && breaker < 10) {
-    console.log(
-      "while",
-      breaker,
-      foundClosestEnemyUnits.length,
-      "accumulatedPaths",
-      accumulatedPaths,
+const reduceSlotIds = (accumulatedPaths, enemyUnitsOnBoard) => {
+  const connectedEnemyUnits = enemyUnitsOnBoard.reduce((prev, enemyUnit) => {
+    const foundPaths = accumulatedPaths.paths.filter(path =>
+      slots[enemyUnit.slotId].adjacentSlotsIds.includes(last(path)),
     );
-    const reduced = accumulatedPaths.reduce((prev, path) => {
-      const lastId = last(path);
 
-      const enemyUnitsWithAdjacentSlotId = enemyUnitsOnBoard
-        .filter(u => slots[u.slotId].adjacentSlotsIds.includes(lastId))
-        .map(u => ({ ...u, foundPaths: path }));
+    return foundPaths.length > 0
+      ? [
+          ...prev,
+          {
+            ...enemyUnit,
+            paths: foundPaths,
+          },
+        ]
+      : prev;
+  }, []);
 
-      console.log("enemyUnitsWithAdjacentSlotId", enemyUnitsWithAdjacentSlotId);
+  if (connectedEnemyUnits.length > 0) {
+    return connectedEnemyUnits;
+  } else {
+    const reduced = accumulatedPaths.paths.reduce(
+      (prev, path) => {
+        const lastId = last(path);
+        const newPathsFromThisPath = slots[lastId].adjacentSlotsIds.map(id => [...path, id]);
 
-      if (enemyUnitsWithAdjacentSlotId.length > 0) {
-        console.log("TRUE");
-        foundClosestEnemyUnits.push(enemyUnitsWithAdjacentSlotId);
-      }
+        return {
+          paths: [...prev.paths, ...newPathsFromThisPath],
+          idsCheckedSoFar: [...prev.idsCheckedSoFar, lastId],
+        };
+      },
+      {
+        paths: [],
+        idsCheckedSoFar: accumulatedPaths.idsCheckedSoFar,
+      },
+    );
+    const filtered = reduced.paths.filter(path => !reduced.idsCheckedSoFar.includes(last(path)));
 
-      idsCheckedSoFar.push(lastId);
-
-      const newPathsFromThisPath = slots[lastId].adjacentSlotsIds.map(id => [...path, id]);
-
-      return [...prev, ...newPathsFromThisPath];
-    }, []);
-
-    const filtered = reduced.filter(path => !idsCheckedSoFar.includes(last(path)));
-
-    accumulatedPaths = filtered;
-    breaker++;
-
-    if (breaker === 5) {
-      console.log("BREAKER -----------------");
-    }
+    return reduceSlotIds(
+      {
+        paths: filtered,
+        idsCheckedSoFar: reduced.idsCheckedSoFar,
+      },
+      enemyUnitsOnBoard,
+    );
   }
+};
 
-  return foundClosestEnemyUnits;
+const getPathsToClosestEnemyUnits = (unit, unitsOnBoard) => {
+  const accumulatedPaths = slots[unit.slotId].adjacentSlotsIds.map(id => [id]);
+  const enemyUnitsOnBoard = unitsOnBoard.filter(u => u.playerId !== unit.playerId);
+  return reduceSlotIds(
+    { paths: accumulatedPaths, idsCheckedSoFar: [unit.slotId] },
+    enemyUnitsOnBoard,
+  );
 };
 
 export default getPathsToClosestEnemyUnits;

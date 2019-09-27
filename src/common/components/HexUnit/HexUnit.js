@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { getUnitsOnBoard, getMyId } from "selectors/game";
 import Hexagon from "common/components/Hexagon/Hexagon";
 import getAdjacentEnemyUnits from "common/utils/getAdjacentEnemyUnits";
-import getPathsToClosestEnemyUnits from "common/utils/test";
+import getPathsToClosestEnemyUnits from "common/utils/getPathsToClosestEnemyUnits";
 
 function HexUnitComponent(props) {
   const [, drag] = useDrag({
