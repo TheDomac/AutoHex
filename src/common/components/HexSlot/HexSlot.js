@@ -23,7 +23,9 @@ function HexSlot(props) {
       ref={drop}
       backgroundColor={isOver && canDrop && "yellow"}
       borderColor={canDrop ? "green" : "#111"}
-    />
+    >
+      {props.slot.id}
+    </Hexagon>
   );
 }
 
