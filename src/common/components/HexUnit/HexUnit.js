@@ -9,7 +9,7 @@ import getPathsToClosestEnemyUnits from "common/utils/getPathsToClosestEnemyUnit
 
 function HexUnitComponent(props) {
   const [, drag] = useDrag({
-    item: { type: "typeExample", id: props.unit.id },
+    item: { type: `hexUnit-${props.unit.playerId}`, id: props.unit.id },
     collect: monitor => ({
       // isDragging: monitor.isDragging(),
     }),
@@ -27,7 +27,11 @@ function HexUnitComponent(props) {
     }
   }
 
-  return <Hexagon backgroundColor="blue" ref={drag} />;
+  return (
+    <Hexagon backgroundColor="blue" ref={drag}>
+      {props.children}
+    </Hexagon>
+  );
 }
 
 const mapStateToProps = state => ({

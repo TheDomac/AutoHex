@@ -5,8 +5,8 @@ import Hexagon from "common/components/Hexagon/Hexagon";
 import HexUnit from "common/components/HexUnit/HexUnit";
 
 function HexSlot(props) {
-  const [{ isOver, canDrop, unit }, drop] = useDrop({
-    accept: "typeExample",
+  const [{ isOver, canDrop, canDrag, unit }, drop] = useDrop({
+    accept: `hexUnit-${props.myId}`,
     canDrop: () => Number(props.slot.id) > 100,
     drop: () => props.moveUnit(props.slot.id, unit.id),
     collect: monitor => ({
@@ -17,7 +17,7 @@ function HexSlot(props) {
   });
 
   return props.unit ? (
-    <HexUnit unit={props.unit} />
+    <HexUnit unit={props.unit}>{canDrag ? "yes" : "no"}</HexUnit>
   ) : (
     <Hexagon
       ref={drop}
