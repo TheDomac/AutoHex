@@ -7,30 +7,31 @@ const getPathsToClosestEnemyUnits = (unit, unitsOnBoard) => {
   console.log("START", unit, enemyUnitsOnBoard);
 
   let accumulatedPaths = slots[unit.slotId].adjacentSlotsIds.map(id => [id]);
-  console.log("accumulatedPaths", accumulatedPaths);
-  let foundPaths = [];
+  let foundClosestEnemyUnits = [];
 
   let breaker = 0;
 
   let idsCheckedSoFar = [unit.slotId];
-  while (foundPaths.length === 0 || breaker === 1) {
+  while (foundClosestEnemyUnits.length === 0 && breaker < 10) {
+    console.log(
+      "while",
+      breaker,
+      foundClosestEnemyUnits.length,
+      "accumulatedPaths",
+      accumulatedPaths,
+    );
     const reduced = accumulatedPaths.reduce((prev, path) => {
       const lastId = last(path);
 
-      const enemyUnitsWithAdjacentSlotid = enemyUnitsOnBoard.filter(u => {
-        console.log(slots[lastId].adjacentSlotsIds);
-        console.log(slots[u.slotId].adjacentSlotsIds);
-        console.log(intersection(slots[lastId].adjacentSlotsIds, slots[u.slotId].adjacentSlotsIds));
-        console.log(
-          intersection(slots[lastId].adjacentSlotsIds, slots[u.slotId].adjacentSlotsIds).length > 0,
-        );
-        return (
-          intersection(slots[lastId].adjacentSlotsIds, slots[u.slotId].adjacentSlotsIds).length > 0
-        );
-      });
+      const enemyUnitsWithAdjacentSlotId = enemyUnitsOnBoard
+        .filter(u => slots[u.slotId].adjacentSlotsIds.includes(lastId))
+        .map(u => ({ ...u, foundPaths: path }));
 
-      if (enemyUnitsWithAdjacentSlotid.length > 0) {
-        foundPaths.push(path);
+      console.log("enemyUnitsWithAdjacentSlotId", enemyUnitsWithAdjacentSlotId);
+
+      if (enemyUnitsWithAdjacentSlotId.length > 0) {
+        console.log("TRUE");
+        foundClosestEnemyUnits.push(enemyUnitsWithAdjacentSlotId);
       }
 
       idsCheckedSoFar.push(lastId);
@@ -44,9 +45,13 @@ const getPathsToClosestEnemyUnits = (unit, unitsOnBoard) => {
 
     accumulatedPaths = filtered;
     breaker++;
+
+    if (breaker === 5) {
+      console.log("BREAKER -----------------");
+    }
   }
 
-  return foundPaths;
+  return foundClosestEnemyUnits;
 };
 
 export default getPathsToClosestEnemyUnits;
