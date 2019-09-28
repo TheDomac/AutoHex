@@ -1,12 +1,14 @@
 import unitsOnBoard from "mocks/consts/unitsOnBoard";
 import { players, myId } from "mocks/consts/players";
 
-const MOVE_UNIT = "test/MOVE_UNIT";
+const MOVE_UNIT = "game/MOVE_UNIT";
+const TOGGLE_IS_GAME_PLAYING = "test/TOGGLE_IS_GAME_PLAYING";
 
 export const initialState = {
   unitsOnBoard,
   players,
   myId,
+  isGamePlaying: false,
 };
 
 export default function reducer(state = initialState, action) {
@@ -24,6 +26,11 @@ export default function reducer(state = initialState, action) {
             : unit,
         ),
       };
+    case TOGGLE_IS_GAME_PLAYING:
+      return {
+        ...state,
+        isGamePlaying: !state.isGamePlaying,
+      };
     default:
       return state;
   }
@@ -32,4 +39,8 @@ export default function reducer(state = initialState, action) {
 export const moveUnit = (slotId, unitId) => ({
   type: MOVE_UNIT,
   payload: { slotId, unitId },
+});
+
+export const toggleIsGamePlaying = () => ({
+  type: TOGGLE_IS_GAME_PLAYING,
 });
