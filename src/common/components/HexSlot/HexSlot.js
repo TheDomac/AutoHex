@@ -18,11 +18,15 @@ function HexSlot(props) {
   });
 
   if (props.unit && props.isGamePlaying) {
-    return <HexUnitActive unit={props.unit} />;
+    return <HexUnitActive unit={props.unit} action={props.actions[props.unit.id]} />;
   }
 
-  if (props.unit && !props.isGamePlaying) {
+  if (props.unit && !props.isGamePlaying && props.myId === props.unit.playerId) {
     return <HexUnitDraggable unit={props.unit} />;
+  }
+
+  if (props.unit && !props.isGamePlaying && props.myId !== props.unit.playerId) {
+    return <Hexagon backgroundColor="blue" />;
   }
 
   return (

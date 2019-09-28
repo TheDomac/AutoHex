@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import HexSlot from "common/components/HexSlot/HexSlot";
 import { BoardWrapper, HexRow } from "./Board.styled";
 import board from "common/consts/board";
-import { getUnitsOnBoard, getMyId } from "selectors/game";
+import { getUnitsOnBoard, getMyId, getActions } from "selectors/game";
 import { moveUnit, toggleIsGamePlaying } from "reducers/game";
 
 class Board extends Component {
@@ -22,6 +22,7 @@ class Board extends Component {
                     moveUnit={this.props.moveUnit}
                     unit={this.props.unitsOnBoard.find(unit => unit.slotId === slot.id)}
                     myId={this.props.myId}
+                    actions={this.props.actions}
                   ></HexSlot>
                 ))}
               </HexRow>
@@ -39,6 +40,7 @@ class Board extends Component {
 const mapStateToProps = state => ({
   unitsOnBoard: getUnitsOnBoard(state),
   myId: getMyId(state),
+  actions: getActions(state),
   isGamePlaying: state.game.isGamePlaying,
 });
 

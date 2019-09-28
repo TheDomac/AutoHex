@@ -49,7 +49,7 @@ const reduceSlotIds = (accumulatedPaths, enemyUnitsOnBoard) => {
   }
 };
 
-const getPathsToClosestEnemyUnits = (unit, unitsOnBoard) => {
+const getClosestEnemyUnits = (unit, unitsOnBoard) => {
   const accumulatedPaths = slots[unit.slotId].adjacentSlotsIds.map(id => [id]);
   const enemyUnitsOnBoard = unitsOnBoard.filter(u => u.playerId !== unit.playerId);
   return reduceSlotIds(
@@ -58,4 +58,4 @@ const getPathsToClosestEnemyUnits = (unit, unitsOnBoard) => {
   );
 };
 
-export default getPathsToClosestEnemyUnits;
+export default getClosestEnemyUnits;

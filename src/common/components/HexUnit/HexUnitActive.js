@@ -12,6 +12,7 @@ class HexUnitActive extends Component {
     // clearInterval
   }
   render() {
+    console.log(this.props);
     return <Hexagon backgroundColor="blue">{this.props.children}</Hexagon>;
   }
 }
