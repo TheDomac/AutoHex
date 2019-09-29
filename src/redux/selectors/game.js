@@ -2,6 +2,8 @@ import { createSelector } from "reselect";
 import { keys } from "lodash";
 
 import actionTypes from "common/consts/actionTypes";
+import slots from "common/consts/slots";
+
 import getAdjacentEnemyUnits from "common/utils/getAdjacentEnemyUnits";
 import getClosestEnemyUnits from "common/utils/getClosestEnemyUnits";
 
@@ -17,41 +19,47 @@ export const getMyId = createSelector(
   game => game.myId,
 );
 
-export const getActions = createSelector(
+export const getUnitsWithActions = createSelector(
   getUnitsOnBoard,
   unitsOnBoard =>
     unitsOnBoard.reduce((prev, unit) => {
       const adjacentEnemyUnits = getAdjacentEnemyUnits(unit, unitsOnBoard);
       if (adjacentEnemyUnits.length > 0) {
-        return {
+        return [
           ...prev,
-          [unit.id]: {
-            type: actionTypes.ATTACK,
-            target: adjacentEnemyUnits[0],
+          {
+            ...unit,
+            action: {
+              type: actionTypes.ATTACK,
+              target: adjacentEnemyUnits[0],
+            },
           },
-        };
+        ];
       }
 
-      const closestEnemyUnits = getClosestEnemyUnits(unit, unitsOnBoard);
-      const ids = keys(prev);
-      const takenSlots = ids.map(id => prev[id].target);
-
-      const availablePaths = closestEnemyUnits[0].paths.filter(
-        path => !takenSlots.includes(path[0]),
+      const enemyUnitsWithTargetAdjacentSlotId = prev.filter(
+        prevUnit =>
+          prevUnit.playerId !== unit.playerId &&
+          prevUnit.action.type === actionTypes.MOVE &&
+          slots[unit.id].adjacentSlotsIds.includes(prevUnit.action.target),
       );
+      // todo next: enemyUnitsWithTargetAdjacentSlotId not working correctly - create stay action
+      console.log(enemyUnitsWithTargetAdjacentSlotId);
+      const takenSlots = prev
+        .filter(prevUnit => prevUnit.action.type === actionTypes.MOVE)
+        .map(prevUnit => prevUnit.action.target);
 
-      // console.log("unit", unit);
-      // console.log("pathsToClosestEnemyUnits", closestEnemyUnits);
-      // console.log("ids", ids);
-      console.log("availablePaths", availablePaths);
-      console.log("--------------------------------");
+      const closestEnemyUnits = getClosestEnemyUnits(unit, unitsOnBoard, takenSlots);
 
-      return {
+      return [
         ...prev,
-        [unit.id]: {
-          type: actionTypes.MOVE,
-          target: availablePaths.length > 0 ? availablePaths[0][0] : null,
+        {
+          ...unit,
+          action: {
+            type: actionTypes.MOVE,
+            target: closestEnemyUnits[0].paths[0][0],
+          },
         },
-      };
-    }, {}),
+      ];
+    }, []),
 );

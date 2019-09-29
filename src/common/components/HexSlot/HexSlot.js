@@ -18,7 +18,13 @@ function HexSlot(props) {
   });
 
   if (props.unit && props.isGamePlaying) {
-    return <HexUnitActive unit={props.unit} action={props.actions[props.unit.id]} />;
+    return (
+      <HexUnitActive
+        unitWithAction={props.unitsWithActions.find(
+          unitWithAction => unitWithAction.id === props.unit.id,
+        )}
+      />
+    );
   }
 
   if (props.unit && !props.isGamePlaying && props.myId === props.unit.playerId) {
@@ -34,7 +40,9 @@ function HexSlot(props) {
       ref={drop}
       backgroundColor={isOver && canDrop && "yellow"}
       borderColor={canDrop ? "green" : "#111"}
-    />
+    >
+      {props.slot.id}
+    </Hexagon>
   );
 }
 

@@ -2,7 +2,7 @@ import { last } from "lodash";
 
 import slots from "common/consts/slots";
 
-const reduceSlotIds = (accumulatedPaths, enemyUnitsOnBoard) => {
+const reduceSlotIds = (accumulatedPaths, enemyUnitsOnBoard, unavailableSlots) => {
   const connectedEnemyUnits = enemyUnitsOnBoard.reduce((prev, enemyUnit) => {
     const foundPaths = accumulatedPaths.paths.filter(path =>
       slots[enemyUnit.slotId].adjacentSlotsIds.includes(last(path)),
@@ -37,7 +37,11 @@ const reduceSlotIds = (accumulatedPaths, enemyUnitsOnBoard) => {
         idsCheckedSoFar: accumulatedPaths.idsCheckedSoFar,
       },
     );
-    const filtered = reduced.paths.filter(path => !reduced.idsCheckedSoFar.includes(last(path)));
+
+    const filtered = reduced.paths.filter(
+      path =>
+        !reduced.idsCheckedSoFar.includes(last(path)) && !unavailableSlots.includes(last(path)),
+    );
 
     return reduceSlotIds(
       {
@@ -45,16 +49,21 @@ const reduceSlotIds = (accumulatedPaths, enemyUnitsOnBoard) => {
         idsCheckedSoFar: reduced.idsCheckedSoFar,
       },
       enemyUnitsOnBoard,
+      unavailableSlots,
     );
   }
 };
 
-const getClosestEnemyUnits = (unit, unitsOnBoard) => {
-  const accumulatedPaths = slots[unit.slotId].adjacentSlotsIds.map(id => [id]);
+const getClosestEnemyUnits = (unit, unitsOnBoard, unavailableSlots) => {
+  const accumulatedPaths = slots[unit.slotId].adjacentSlotsIds
+    .filter(id => !unavailableSlots.includes(id))
+    .map(id => [id]);
+
   const enemyUnitsOnBoard = unitsOnBoard.filter(u => u.playerId !== unit.playerId);
   return reduceSlotIds(
     { paths: accumulatedPaths, idsCheckedSoFar: [unit.slotId] },
     enemyUnitsOnBoard,
+    unavailableSlots,
   );
 };
 
