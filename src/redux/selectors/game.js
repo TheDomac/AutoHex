@@ -1,5 +1,4 @@
 import { createSelector } from "reselect";
-import { keys } from "lodash";
 
 import actionTypes from "common/consts/actionTypes";
 import slots from "common/consts/slots";
@@ -37,14 +36,25 @@ export const getUnitsWithActions = createSelector(
         ];
       }
 
-      const enemyUnitsWithTargetAdjacentSlotId = prev.filter(
+      const prevEnemyUnitsWithTargetAdjacentSlotId = prev.filter(
         prevUnit =>
           prevUnit.playerId !== unit.playerId &&
           prevUnit.action.type === actionTypes.MOVE &&
-          slots[unit.id].adjacentSlotsIds.includes(prevUnit.action.target),
+          slots[unit.slotId].adjacentSlotsIds.includes(prevUnit.action.target),
       );
-      // todo next: enemyUnitsWithTargetAdjacentSlotId not working correctly - create stay action
-      console.log(enemyUnitsWithTargetAdjacentSlotId);
+
+      if (prevEnemyUnitsWithTargetAdjacentSlotId.length > 0) {
+        return [
+          ...prev,
+          {
+            ...unit,
+            action: {
+              type: actionTypes.STAY,
+            },
+          },
+        ];
+      }
+
       const takenSlots = prev
         .filter(prevUnit => prevUnit.action.type === actionTypes.MOVE)
         .map(prevUnit => prevUnit.action.target);
