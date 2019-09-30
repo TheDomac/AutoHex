@@ -40,7 +40,7 @@ const slots = {
   "118": { adjacentSlotsIds: ["117", "111", "112", "119"] },
   "119": { adjacentSlotsIds: ["118", "112", "113", "120"] },
   "120": { adjacentSlotsIds: ["119", "113", "114", "121"] },
-  "121": { adjacentSlotsIds: ["120", "114"] },
+  "121": { adjacentSlotsIds: ["114", "120"] },
 };
 
 export default slots;

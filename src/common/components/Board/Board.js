@@ -4,9 +4,23 @@ import HexSlot from "common/components/HexSlot/HexSlot";
 import { BoardWrapper, HexRow } from "./Board.styled";
 import board from "common/consts/board";
 import { getUnitsOnBoard, getMyId, getUnitsWithActions } from "selectors/game";
-import { moveUnit, toggleIsGamePlaying } from "reducers/game";
+import { moveUnit, toggleIsGamePlaying, moveUnits } from "reducers/game";
 
 class Board extends Component {
+  state = {
+    interval: null,
+  };
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.isGamePlaying && this.props.isGamePlaying) {
+      const interval = setInterval(this.props.moveUnits, 1000);
+      this.setState({ interval });
+    }
+
+    if (prevProps.isGamePlaying && !this.props.isGamePlaying) {
+      clearInterval(this.state.interval);
+    }
+  }
   render() {
     return (
       <>
@@ -47,6 +61,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   moveUnit,
   toggleIsGamePlaying,
+  moveUnits,
 };
 export default connect(
   mapStateToProps,

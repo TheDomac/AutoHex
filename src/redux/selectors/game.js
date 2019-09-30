@@ -55,9 +55,13 @@ export const getUnitsWithActions = createSelector(
         ];
       }
 
-      const takenSlots = prev
-        .filter(prevUnit => prevUnit.action.type === actionTypes.MOVE)
-        .map(prevUnit => prevUnit.action.target);
+      // const takenSlots = prev
+      //   .filter(prevUnit => prevUnit.action.type === actionTypes.MOVE)
+      //   .map(prevUnit => prevUnit.action.target);
+
+      const takenSlots = prev.map(prevUnit =>
+        prevUnit.action.type === actionTypes.MOVE ? prevUnit.action.target : prevUnit.slotId,
+      );
 
       const closestEnemyUnits = getClosestEnemyUnits(unit, unitsOnBoard, takenSlots);
 
