@@ -1,12 +1,14 @@
-import unitsOnBoard from "mocks/consts/unitsOnBoard";
 import { players, myId } from "mocks/consts/players";
+import unitsOnBoard from "mocks/consts/unitsOnBoard";
 import actionTypes from "common/consts/actionTypes";
+import isRoundOver from "common/utils/isRoundOver";
 
 import { getUnitsWithActions } from "src/redux/selectors/game";
 
 const MOVE_UNIT = "game/MOVE_UNIT";
 const TOGGLE_IS_GAME_PLAYING = "game/TOGGLE_IS_GAME_PLAYING";
 const MOVE_UNITS = "game/MOVE_UNITS";
+const ATTACK_UNIT = "game/ATTACK_UNIT";
 
 export const initialState = {
   unitsOnBoard,
@@ -35,8 +37,25 @@ export default function reducer(state = initialState, action) {
         ...state,
         isGamePlaying: !state.isGamePlaying,
       };
+    case ATTACK_UNIT: {
+      const newUnitsOnBoard = state.unitsOnBoard
+        .map(unit =>
+          unit.id === payload.unitWithAction.action.target.id
+            ? {
+                ...unit,
+                health: unit.health - payload.unitWithAction.damage,
+              }
+            : unit,
+        )
+        .filter(unit => unit.health > 0);
+
+      return {
+        ...state,
+        unitsOnBoard: newUnitsOnBoard,
+        isGamePlaying: !isRoundOver(newUnitsOnBoard),
+      };
+    }
     case MOVE_UNITS: {
-      console.log(action);
       return {
         ...state,
         unitsOnBoard: state.unitsOnBoard.map((unit, i) => ({
@@ -60,6 +79,11 @@ export const moveUnit = (slotId, unitId) => ({
 
 export const toggleIsGamePlaying = () => ({
   type: TOGGLE_IS_GAME_PLAYING,
+});
+
+export const attackUnit = unitWithAction => ({
+  type: ATTACK_UNIT,
+  payload: { unitWithAction },
 });
 
 export const moveUnits = () => (dispatch, getState) => {

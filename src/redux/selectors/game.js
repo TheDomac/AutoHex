@@ -5,6 +5,7 @@ import slots from "common/consts/slots";
 
 import getAdjacentEnemyUnits from "common/utils/getAdjacentEnemyUnits";
 import getClosestEnemyUnits from "common/utils/getClosestEnemyUnits";
+import isRoundOver from "common/utils/isRoundOver";
 
 export const getGame = state => state.game;
 
@@ -43,7 +44,7 @@ export const getUnitsWithActions = createSelector(
           slots[unit.slotId].adjacentSlotsIds.includes(prevUnit.action.target),
       );
 
-      if (prevEnemyUnitsWithTargetAdjacentSlotId.length > 0) {
+      if (prevEnemyUnitsWithTargetAdjacentSlotId.length > 0 || isRoundOver(unitsOnBoard)) {
         return [
           ...prev,
           {
@@ -54,10 +55,6 @@ export const getUnitsWithActions = createSelector(
           },
         ];
       }
-
-      // const takenSlots = prev
-      //   .filter(prevUnit => prevUnit.action.type === actionTypes.MOVE)
-      //   .map(prevUnit => prevUnit.action.target);
 
       const takenSlots = prev.map(prevUnit =>
         prevUnit.action.type === actionTypes.MOVE ? prevUnit.action.target : prevUnit.slotId,

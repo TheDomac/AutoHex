@@ -20,19 +20,22 @@ function HexSlot(props) {
   if (props.unit && props.isGamePlaying) {
     return (
       <HexUnitActive
+        attackUnit={props.attackUnit}
         unitWithAction={props.unitsWithActions.find(
           unitWithAction => unitWithAction.id === props.unit.id,
         )}
-      />
+      >
+        {props.unit.health}
+      </HexUnitActive>
     );
   }
 
   if (props.unit && !props.isGamePlaying && props.myId === props.unit.playerId) {
-    return <HexUnitDraggable unit={props.unit} />;
+    return <HexUnitDraggable unit={props.unit}>{props.unit.health}</HexUnitDraggable>;
   }
 
   if (props.unit && !props.isGamePlaying && props.myId !== props.unit.playerId) {
-    return <Hexagon backgroundColor="blue" />;
+    return <Hexagon backgroundColor="blue">{props.unit.health}</Hexagon>;
   }
 
   return (

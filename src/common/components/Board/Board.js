@@ -4,7 +4,7 @@ import HexSlot from "common/components/HexSlot/HexSlot";
 import { BoardWrapper, HexRow } from "./Board.styled";
 import board from "common/consts/board";
 import { getUnitsOnBoard, getMyId, getUnitsWithActions } from "selectors/game";
-import { moveUnit, toggleIsGamePlaying, moveUnits } from "reducers/game";
+import { moveUnit, toggleIsGamePlaying, moveUnits, attackUnit } from "reducers/game";
 
 class Board extends Component {
   state = {
@@ -37,6 +37,7 @@ class Board extends Component {
                     unit={this.props.unitsOnBoard.find(unit => unit.slotId === slot.id)}
                     myId={this.props.myId}
                     unitsWithActions={this.props.unitsWithActions}
+                    attackUnit={this.props.attackUnit}
                   ></HexSlot>
                 ))}
               </HexRow>
@@ -62,6 +63,7 @@ const mapDispatchToProps = {
   moveUnit,
   toggleIsGamePlaying,
   moveUnits,
+  attackUnit,
 };
 export default connect(
   mapStateToProps,
