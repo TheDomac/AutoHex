@@ -22,7 +22,6 @@ class Board extends Component {
     }
   }
   render() {
-    // console.log(this.props.unitsOnBoard, board);
     return (
       <>
         <BoardWrapper>
