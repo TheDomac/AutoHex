@@ -16,7 +16,6 @@ function HexSlot(props) {
       unit: monitor.getItem(),
     }),
   });
-
   if (props.unit && props.isGamePlaying) {
     return (
       <HexUnitActive

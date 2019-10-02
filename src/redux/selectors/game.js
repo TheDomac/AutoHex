@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import actionTypes from "common/consts/actionTypes";
-import slots from "common/consts/slots";
+import pureSlots from "common/consts/pureSlots";
 
 import getAdjacentEnemyUnits from "common/utils/getAdjacentEnemyUnits";
 import getClosestEnemyUnits from "common/utils/getClosestEnemyUnits";
@@ -41,7 +41,7 @@ export const getUnitsWithActions = createSelector(
         prevUnit =>
           prevUnit.playerId !== unit.playerId &&
           prevUnit.action.type === actionTypes.MOVE &&
-          slots[unit.slotId].adjacentSlotsIds.includes(prevUnit.action.target),
+          pureSlots[unit.slotId].adjacentSlotsIds.includes(prevUnit.action.target),
       );
 
       if (prevEnemyUnitsWithTargetAdjacentSlotId.length > 0 || isRoundOver(unitsOnBoard)) {

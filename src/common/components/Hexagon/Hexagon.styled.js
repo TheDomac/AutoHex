@@ -90,6 +90,6 @@ export const HexBottom = styled.div`
 
 export const HexChildren = styled.div`
   position: absolute;
-  color: white;
+  color: red;
   z-index: 3;
 `;

@@ -1,8 +1,9 @@
-import slots from "./slots";
+import pureSlots from "./pureSlots";
 
 import { keys } from "lodash";
 
-const arrayOfSlots = keys(slots).map(id => ({ id, ...slots[id] }));
+const arrayOfSlots = keys(pureSlots).map(id => ({ id: Number(id), ...pureSlots[id] }));
+
 const board = [
   arrayOfSlots.slice(0, 7),
   arrayOfSlots.slice(7, 14),
