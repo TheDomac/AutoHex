@@ -27,39 +27,38 @@ class Board extends Component {
 
   render() {
     return (
-      <BoardWrapper>
-        {board.map(slot => (
-          <HexSlot
-            key={slot.id}
-            slot={slot}
-            myId={this.props.myId}
-            moveUnit={this.props.moveUnit}
-          />
-        ))}
-        {!this.props.isGamePlaying &&
-          this.props.unitsOnBoard.map(unit => (
-            <HexUnitDraggable
-              key={unit.id}
-              coordinates={slots[unit.slotId].coordinates}
-              unit={unit}
+      <>
+        <BoardWrapper>
+          {board.map(slot => (
+            <HexSlot
+              key={slot.id}
+              slot={slot}
+              myId={this.props.myId}
+              moveUnit={this.props.moveUnit}
             />
           ))}
-        {this.props.isGamePlaying &&
-          this.props.unitsWithActions.map(unit => (
-            <HexUnitActive
-              key={unit.id}
-              coordinates={slots[unit.slotId].coordinates}
-              unitWithAction={unit}
-              attackUnit={this.props.attackUnit}
-            />
-          ))}
-        <button
-          onClick={this.props.toggleIsGamePlaying}
-          style={{ position: "absolute", top: "540px" }}
-        >
+          {!this.props.isGamePlaying &&
+            this.props.unitsOnBoard.map(unit => (
+              <HexUnitDraggable
+                key={unit.id}
+                coordinates={slots[unit.slotId].coordinates}
+                unit={unit}
+              />
+            ))}
+          {this.props.isGamePlaying &&
+            this.props.unitsWithActions.map(unit => (
+              <HexUnitActive
+                key={unit.id}
+                coordinates={slots[unit.slotId].coordinates}
+                unitWithAction={unit}
+                attackUnit={this.props.attackUnit}
+              />
+            ))}
+        </BoardWrapper>
+        <button onClick={this.props.toggleIsGamePlaying}>
           Is game playing: {this.props.isGamePlaying ? "Yes" : "No"}
         </button>
-      </BoardWrapper>
+      </>
     );
   }
 }

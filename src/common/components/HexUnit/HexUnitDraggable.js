@@ -4,7 +4,7 @@ import { useDrag } from "react-dnd";
 import calculateTargetAngle from "common/utils/calculateTargetAngle";
 
 import Hexagon from "common/components/Hexagon/Hexagon";
-import { Health, Arrow } from "./HexUnit.styled";
+import { Health, Arrow, ArrowWrapper } from "./HexUnit.styled";
 
 function HexUnitDraggable({ unit, coordinates }) {
   const [, drag] = useDrag({
@@ -23,7 +23,9 @@ function HexUnitDraggable({ unit, coordinates }) {
       ref={drag}
     >
       <Health>{unit.health}</Health>
-      <Arrow rotateValue={calculateTargetAngle("121", "114")}>↑</Arrow>
+      {/* <ArrowWrapper rotateValue={calculateTargetAngle("121", "113")}>
+        <Arrow attackSpeed={1 / unit.attackSpeed}>↑</Arrow>
+      </ArrowWrapper> */}
     </Hexagon>
   );
 }

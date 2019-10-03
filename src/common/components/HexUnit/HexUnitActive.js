@@ -2,10 +2,8 @@ import React, { Component } from "react";
 
 import Hexagon from "common/components/Hexagon/Hexagon";
 import actionTypes from "common/consts/actionTypes";
-import { Health, Arrow } from "./HexUnit.styled";
+import { Health, Arrow, ArrowWrapper } from "./HexUnit.styled";
 import calculateTargetAngle from "common/utils/calculateTargetAngle";
-
-const intervalDuration = 1000;
 
 class HexUnitActive extends Component {
   state = {
@@ -14,7 +12,10 @@ class HexUnitActive extends Component {
 
   componentDidMount() {
     if (this.props.unitWithAction.action.type === actionTypes.ATTACK) {
-      const interval = setInterval(this.attackUnit, intervalDuration);
+      const interval = setInterval(
+        this.attackUnit,
+        (1 / this.props.unitWithAction.attackSpeed) * 1000,
+      );
       this.setState({ interval });
     }
   }
@@ -24,7 +25,10 @@ class HexUnitActive extends Component {
       prevProps.unitWithAction.action.type !== actionTypes.ATTACK &&
       this.props.unitWithAction.action.type === actionTypes.ATTACK
     ) {
-      const interval = setInterval(this.attackUnit, intervalDuration);
+      const interval = setInterval(
+        this.attackUnit,
+        (1 / this.props.unitWithAction.attackSpeed) * 1000,
+      );
       this.setState({ interval });
     }
 
@@ -58,14 +62,14 @@ class HexUnitActive extends Component {
       >
         <Health>{this.props.unitWithAction.health}</Health>
         {this.props.unitWithAction.action.type === actionTypes.ATTACK && (
-          <Arrow
+          <ArrowWrapper
             rotateValue={calculateTargetAngle(
               this.props.unitWithAction.slotId,
               this.props.unitWithAction.action.target.slotId,
             )}
           >
-            ↑
-          </Arrow>
+            <Arrow attackSpeed={1 / this.props.unitWithAction.attackSpeed}>↑</Arrow>
+          </ArrowWrapper>
         )}
       </Hexagon>
     );
