@@ -1,28 +1,24 @@
 import React from "react";
 import { useDrag } from "react-dnd";
-import { connect } from "react-redux";
 
-import { getUnitsOnBoard, getMyId } from "selectors/game";
 import Hexagon from "common/components/Hexagon/Hexagon";
 
-function HexUnitDraggable(props) {
+function HexUnitDraggable({ unit, coordinates }) {
   const [, drag] = useDrag({
-    item: { type: `hexUnit-${props.unit.playerId}`, id: props.unit.id },
+    item: { type: `hexUnit-${unit.playerId}`, id: unit.id },
     collect: monitor => ({
       // isDragging: monitor.isDragging(),
     }),
   });
 
   return (
-    <Hexagon backgroundColor="blue" ref={drag}>
-      {props.children}
-    </Hexagon>
+    <Hexagon
+      styleProps={`position: absolute; left: ${88 * coordinates[0]}px; top:${76.75 *
+        coordinates[1]}px`}
+      backgroundColor="blue"
+      ref={drag}
+    />
   );
 }
 
-const mapStateToProps = state => ({
-  unitsOnBoard: getUnitsOnBoard(state),
-  myId: getMyId(state),
-});
-
-export default connect(mapStateToProps)(HexUnitDraggable);
+export default HexUnitDraggable;

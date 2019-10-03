@@ -44,7 +44,13 @@ class HexUnitActive extends Component {
   };
 
   render() {
-    return <Hexagon backgroundColor="blue">{this.props.children}</Hexagon>;
+    return (
+      <Hexagon
+        styleProps={`position: absolute; left: ${88 * this.props.coordinates[0]}px; top:${76.75 *
+          this.props.coordinates[1]}px`}
+        backgroundColor="blue"
+      />
+    );
   }
 }
 
