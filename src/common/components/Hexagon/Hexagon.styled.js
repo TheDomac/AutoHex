@@ -87,9 +87,3 @@ export const HexBottom = styled.div`
     transform: rotate(45deg) scaleY(1.7321) translateY(-21.9393px);
   }
 `;
-
-export const HexChildren = styled.div`
-  position: absolute;
-  color: red;
-  z-index: 3;
-`;

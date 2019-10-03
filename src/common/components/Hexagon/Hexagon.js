@@ -1,6 +1,6 @@
 import React from "react";
 
-import { HexMain, HexTop, HexBottom, HexChildren } from "./Hexagon.styled";
+import { HexMain, HexTop, HexBottom } from "./Hexagon.styled";
 
 const Hexagon = React.forwardRef((props, ref) => (
   <HexMain
@@ -10,7 +10,7 @@ const Hexagon = React.forwardRef((props, ref) => (
     borderColor={props.borderColor}
   >
     <HexTop borderColor={props.borderColor} />
-    <HexChildren>{props.children}</HexChildren>
+    {props.children}
     <HexBottom borderColor={props.borderColor} />
   </HexMain>
 ));

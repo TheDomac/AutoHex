@@ -2,7 +2,8 @@ import React, { Component } from "react";
 
 import Hexagon from "common/components/Hexagon/Hexagon";
 import actionTypes from "common/consts/actionTypes";
-// import calculateTargetAngle from "common/utils/calculateTargetAngle";
+import { Health, Arrow } from "./HexUnit.styled";
+import calculateTargetAngle from "common/utils/calculateTargetAngle";
 
 const intervalDuration = 1000;
 
@@ -46,10 +47,27 @@ class HexUnitActive extends Component {
   render() {
     return (
       <Hexagon
-        styleProps={`position: absolute; left: ${88 * this.props.coordinates[0]}px; top:${76.75 *
-          this.props.coordinates[1]}px`}
+        styleProps={`
+        position: absolute;
+        z-index: 4;
+        transition: 300ms;
+        transform: translate(${88 * this.props.coordinates[0]}px, ${76.75 *
+          this.props.coordinates[1]}px);
+        `}
         backgroundColor="blue"
-      />
+      >
+        <Health>{this.props.unitWithAction.health}</Health>
+        {this.props.unitWithAction.action.type === actionTypes.ATTACK && (
+          <Arrow
+            rotateValue={calculateTargetAngle(
+              this.props.unitWithAction.slotId,
+              this.props.unitWithAction.action.target.slotId,
+            )}
+          >
+            ↑
+          </Arrow>
+        )}
+      </Hexagon>
     );
   }
 }
