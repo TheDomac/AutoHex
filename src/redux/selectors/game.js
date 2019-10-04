@@ -23,7 +23,7 @@ export const getUnitsWithActions = createSelector(
   getUnitsOnBoard,
   unitsOnBoard => {
     if (isRoundOver(unitsOnBoard)) {
-      return unitsOnBoard;
+      return unitsOnBoard.map(u => ({ ...u, action: { type: actionTypes.STAY } }));
     }
 
     return unitsOnBoard.reduce((prev, unit) => {
