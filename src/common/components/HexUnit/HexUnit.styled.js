@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 export const Health = styled.span`
   position: absolute;
   z-index: 4;
-  color: red;
+  color: green;
 `;
 
 export const ArrowWrapper = styled.span`
@@ -27,7 +27,7 @@ to {
 export const Arrow = styled.span`
   position: absolute;
   z-index: 4;
-  color: red;
-  font-size: 125px;
+  color: green;
+  font-size: 55px;
   animation: ${move} ${props => props.attackSpeed}s linear infinite;
 `;

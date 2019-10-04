@@ -55,6 +55,14 @@ const reduceSlotIds = (accumulatedPaths, enemyUnitsOnBoard, unavailableSlots) =>
 };
 
 const getClosestEnemyUnits = (unit, unitsOnBoard, unavailableSlots) => {
+  const adjacentEnemyunits = unitsOnBoard.filter(
+    u => u.playerId !== unit.playerId && pureSlots[u.slotId].adjacentSlotsIds.includes(unit.slotId),
+  );
+
+  if (adjacentEnemyunits.length > 0) {
+    return adjacentEnemyunits.map(u => ({ ...u, paths: [[]] }));
+  }
+
   const accumulatedPaths = pureSlots[unit.slotId].adjacentSlotsIds
     .filter(id => !unavailableSlots.includes(id))
     .map(id => [id]);

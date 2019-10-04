@@ -21,17 +21,28 @@ export const getMyId = createSelector(
 
 export const getUnitsWithActions = createSelector(
   getUnitsOnBoard,
-  unitsOnBoard =>
-    unitsOnBoard.reduce((prev, unit) => {
-      const adjacentEnemyUnits = getAdjacentEnemyUnits(unit, unitsOnBoard);
-      if (adjacentEnemyUnits.length > 0) {
+  unitsOnBoard => {
+    if (isRoundOver(unitsOnBoard)) {
+      return unitsOnBoard;
+    }
+
+    return unitsOnBoard.reduce((prev, unit) => {
+      const takenSlots = [
+        ...prev.map(prevUnit =>
+          prevUnit.action.type === actionTypes.MOVE ? prevUnit.action.target : prevUnit.slotId,
+        ),
+        ...unitsOnBoard.map(u => u.slotId),
+      ];
+
+      const closestEnemyUnits = getClosestEnemyUnits(unit, unitsOnBoard, takenSlots);
+      if (closestEnemyUnits[0].paths[0].length + 1 <= unit.range) {
         return [
           ...prev,
           {
             ...unit,
             action: {
               type: actionTypes.ATTACK,
-              target: adjacentEnemyUnits[0],
+              target: closestEnemyUnits[0],
             },
           },
         ];
@@ -44,7 +55,7 @@ export const getUnitsWithActions = createSelector(
           pureSlots[unit.slotId].adjacentSlotsIds.includes(prevUnit.action.target),
       );
 
-      if (prevEnemyUnitsWithTargetAdjacentSlotId.length > 0 || isRoundOver(unitsOnBoard)) {
+      if (prevEnemyUnitsWithTargetAdjacentSlotId.length > 0) {
         return [
           ...prev,
           {
@@ -56,12 +67,6 @@ export const getUnitsWithActions = createSelector(
         ];
       }
 
-      const takenSlots = prev.map(prevUnit =>
-        prevUnit.action.type === actionTypes.MOVE ? prevUnit.action.target : prevUnit.slotId,
-      );
-
-      const closestEnemyUnits = getClosestEnemyUnits(unit, unitsOnBoard, takenSlots);
-
       return [
         ...prev,
         {
@@ -72,5 +77,6 @@ export const getUnitsWithActions = createSelector(
           },
         },
       ];
-    }, []),
+    }, []);
+  },
 );

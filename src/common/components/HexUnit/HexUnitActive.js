@@ -5,6 +5,8 @@ import actionTypes from "common/consts/actionTypes";
 import { Health, Arrow, ArrowWrapper } from "./HexUnit.styled";
 import calculateTargetAngle from "common/utils/calculateTargetAngle";
 
+import champions from "mocks/consts/champions";
+
 class HexUnitActive extends Component {
   state = {
     interval: null,
@@ -58,7 +60,7 @@ class HexUnitActive extends Component {
         transform: translate(${88 * this.props.coordinates[0]}px, ${76.75 *
           this.props.coordinates[1]}px);
         `}
-        backgroundColor="blue"
+        backgroundColor={champions[this.props.unitWithAction.championId].backgroundColor}
       >
         <Health>{this.props.unitWithAction.health}</Health>
         {this.props.unitWithAction.action.type === actionTypes.ATTACK && (
