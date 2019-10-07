@@ -43,6 +43,11 @@ const reduceSlotIds = (accumulatedPaths, enemyUnitsOnBoard, unavailableSlots) =>
         !reduced.idsCheckedSoFar.includes(last(path)) && !unavailableSlots.includes(last(path)),
     );
 
+    // if blocked by unavailable slots
+    if (filtered.length === 0) {
+      return [];
+    }
+
     return reduceSlotIds(
       {
         paths: filtered,
@@ -55,17 +60,14 @@ const reduceSlotIds = (accumulatedPaths, enemyUnitsOnBoard, unavailableSlots) =>
 };
 
 const getClosestEnemyUnits = (unit, unitsOnBoard, unavailableSlots) => {
-  const adjacentEnemyunits = unitsOnBoard.filter(
-    u => u.playerId !== unit.playerId && pureSlots[u.slotId].adjacentSlotsIds.includes(unit.slotId),
-  );
-
-  if (adjacentEnemyunits.length > 0) {
-    return adjacentEnemyunits.map(u => ({ ...u, paths: [[]] }));
-  }
-
   const accumulatedPaths = pureSlots[unit.slotId].adjacentSlotsIds
     .filter(id => !unavailableSlots.includes(id))
     .map(id => [id]);
+
+  // if surrounded by unavailable slots
+  if (accumulatedPaths.length === 0) {
+    return [];
+  }
 
   const enemyUnitsOnBoard = unitsOnBoard.filter(u => u.playerId !== unit.playerId);
   return reduceSlotIds(

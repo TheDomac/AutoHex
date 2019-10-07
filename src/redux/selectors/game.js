@@ -3,9 +3,9 @@ import { createSelector } from "reselect";
 import actionTypes from "common/consts/actionTypes";
 import pureSlots from "common/consts/pureSlots";
 
-import getAdjacentEnemyUnits from "common/utils/getAdjacentEnemyUnits";
 import getClosestEnemyUnits from "common/utils/getClosestEnemyUnits";
 import isRoundOver from "common/utils/isRoundOver";
+import getEnemyUnitsInRange from "../../common/utils/getEnemyUnitsInRange";
 
 export const getGame = state => state.game;
 
@@ -27,6 +27,20 @@ export const getUnitsWithActions = createSelector(
     }
 
     return unitsOnBoard.reduce((prev, unit) => {
+      const enemyUnitsInRange = getEnemyUnitsInRange(unit, unitsOnBoard);
+      if (enemyUnitsInRange.length > 0) {
+        return [
+          ...prev,
+          {
+            ...unit,
+            action: {
+              type: actionTypes.ATTACK,
+              target: enemyUnitsInRange[0],
+            },
+          },
+        ];
+      }
+
       const takenSlots = [
         ...prev.map(prevUnit =>
           prevUnit.action.type === actionTypes.MOVE ? prevUnit.action.target : prevUnit.slotId,
@@ -35,27 +49,14 @@ export const getUnitsWithActions = createSelector(
       ];
 
       const closestEnemyUnits = getClosestEnemyUnits(unit, unitsOnBoard, takenSlots);
-      if (closestEnemyUnits[0].paths[0].length + 1 <= unit.range) {
-        return [
-          ...prev,
-          {
-            ...unit,
-            action: {
-              type: actionTypes.ATTACK,
-              target: closestEnemyUnits[0],
-            },
-          },
-        ];
-      }
-
       const prevEnemyUnitsWithTargetAdjacentSlotId = prev.filter(
         prevUnit =>
           prevUnit.playerId !== unit.playerId &&
           prevUnit.action.type === actionTypes.MOVE &&
           pureSlots[unit.slotId].adjacentSlotsIds.includes(prevUnit.action.target),
       );
-
-      if (prevEnemyUnitsWithTargetAdjacentSlotId.length > 0) {
+      // if blocked by taken slots or enemy coming
+      if (closestEnemyUnits.length === 0 || prevEnemyUnitsWithTargetAdjacentSlotId.length > 0) {
         return [
           ...prev,
           {

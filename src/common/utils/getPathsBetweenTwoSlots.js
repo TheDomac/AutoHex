@@ -39,7 +39,7 @@ const reduceSlotIds = (accumulatedPaths, endSlotId) => {
 
 const getPathsBetweenTwoSlots = (startSlotId, endSlotId) => {
   if (pureSlots[startSlotId].adjacentSlotsIds.includes(endSlotId)) {
-    return [];
+    return [[]];
   }
 
   const accumulatedPaths = pureSlots[startSlotId].adjacentSlotsIds.map(id => [id]);
