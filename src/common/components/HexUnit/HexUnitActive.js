@@ -10,37 +10,51 @@ import champions from "mocks/consts/champions";
 class HexUnitActive extends Component {
   state = {
     attackInterval: null,
+    moveInterval: null,
   };
 
   componentDidUpdate(prevProps) {
-    if (
-      (prevProps.unitWithAction.action.type !== actionTypes.ATTACK &&
-        this.props.unitWithAction.action.type === actionTypes.ATTACK) ||
-      (!prevProps.isActive &&
-        this.props.isActive &&
-        this.props.unitWithAction.action.type === actionTypes.ATTACK)
-    ) {
-      const attackInterval = setInterval(
-        this.attackUnit,
-        (1 / this.props.unitWithAction.attackSpeed) * 1000,
-      );
-      this.setState({ attackInterval });
-    }
+    this.checkForChangesInAction(
+      prevProps,
+      actionTypes.ATTACK,
+      (1 / this.props.unitWithAction.attackSpeed) * 1000,
+      this.attackUnit,
+    );
 
-    if (
-      prevProps.unitWithAction.action.type === actionTypes.ATTACK &&
-      this.props.unitWithAction.action.type !== actionTypes.ATTACK
-    ) {
-      clearInterval(this.state.attackInterval);
-    }
+    this.checkForChangesInAction(prevProps, actionTypes.MOVE, 300, this.moveUnit);
   }
 
+  checkForChangesInAction = (prevProps, actionType, intervalDuration, intervalAction) => {
+    if (
+      (prevProps.unitWithAction.action.type !== actionType &&
+        this.props.unitWithAction.action.type === actionType) ||
+      (!prevProps.isActive &&
+        this.props.isActive &&
+        this.props.unitWithAction.action.type === actionType)
+    ) {
+      const interval = setInterval(intervalAction, intervalDuration);
+      this.setState({ [`${actionType}Interval`]: interval });
+    }
+
+    if (
+      prevProps.unitWithAction.action.type === actionType &&
+      this.props.unitWithAction.action.type !== actionType
+    ) {
+      clearInterval(this.state[`${actionType}Interval`]);
+    }
+  };
+
   componentWillUnmount() {
-    clearInterval(this.state.interval);
+    clearInterval(this.state.attackInterval);
+    clearInterval(this.state.moveInterval);
   }
 
   attackUnit = () => {
     this.props.attackUnit(this.props.unitWithAction);
+  };
+
+  moveUnit = () => {
+    this.props.moveUnit(this.props.unitWithAction);
   };
 
   render() {

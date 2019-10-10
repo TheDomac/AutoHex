@@ -11,17 +11,21 @@ class ActiveBoard extends Component {
   state = {
     unitsWithActions: giveActions(this.props.unitsOnBoard),
     isActive: false,
-    moveInterval: null,
   };
 
   componentDidMount() {
     setTimeout(() => {
-      const moveInterval = setInterval(this.moveUnits, 1000);
-      this.setState({ moveInterval, isActive: true });
+      this.setState({ isActive: true });
     }, 3000);
   }
 
-  attackUnit = () => {};
+  attackUnit = unitWithAction => {
+    console.log("ATTACK UNIT", unitWithAction);
+  };
+
+  moveUnit = unitWithAction => {
+    console.log("MOVE UNIT", unitWithAction);
+  };
 
   render() {
     const { unitsWithActions, isActive } = this.state;
