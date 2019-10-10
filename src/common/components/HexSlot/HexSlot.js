@@ -7,7 +7,7 @@ function HexSlot({ slot, myId, moveUnit }) {
   const [{ isOver, canDrop, unit }, drop] = useDrop({
     accept: `hexUnit-${myId}`,
     canDrop: () => Number(slot.id) > 100,
-    drop: () => moveUnit(slot.id, unit.id),
+    drop: () => moveUnit && moveUnit(slot.id, unit.id),
     collect: monitor => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),

@@ -9,36 +9,29 @@ import champions from "mocks/consts/champions";
 
 class HexUnitActive extends Component {
   state = {
-    interval: null,
+    attackInterval: null,
   };
-
-  componentDidMount() {
-    if (this.props.unitWithAction.action.type === actionTypes.ATTACK) {
-      const interval = setInterval(
-        this.attackUnit,
-        (1 / this.props.unitWithAction.attackSpeed) * 1000,
-      );
-      this.setState({ interval });
-    }
-  }
 
   componentDidUpdate(prevProps) {
     if (
-      prevProps.unitWithAction.action.type !== actionTypes.ATTACK &&
-      this.props.unitWithAction.action.type === actionTypes.ATTACK
+      (prevProps.unitWithAction.action.type !== actionTypes.ATTACK &&
+        this.props.unitWithAction.action.type === actionTypes.ATTACK) ||
+      (!prevProps.isActive &&
+        this.props.isActive &&
+        this.props.unitWithAction.action.type === actionTypes.ATTACK)
     ) {
-      const interval = setInterval(
+      const attackInterval = setInterval(
         this.attackUnit,
         (1 / this.props.unitWithAction.attackSpeed) * 1000,
       );
-      this.setState({ interval });
+      this.setState({ attackInterval });
     }
 
     if (
       prevProps.unitWithAction.action.type === actionTypes.ATTACK &&
       this.props.unitWithAction.action.type !== actionTypes.ATTACK
     ) {
-      clearInterval(this.state.interval);
+      clearInterval(this.state.attackInterval);
     }
   }
 
