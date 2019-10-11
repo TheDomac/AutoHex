@@ -10,7 +10,12 @@ const giveActions = unitsOnBoard => {
     return unitsOnBoard.map(u => ({ ...u, action: { type: actionTypes.STAY } }));
   }
 
-  return unitsOnBoard.reduce((prev, unit) => {
+  const clearedUnits = unitsOnBoard.map(unit => ({
+    ...unit,
+    action: undefined,
+  }));
+
+  return clearedUnits.reduce((prev, unit) => {
     const enemyUnitsInRange = getEnemyUnitsInRange(unit, unitsOnBoard);
     if (enemyUnitsInRange.length > 0) {
       return [

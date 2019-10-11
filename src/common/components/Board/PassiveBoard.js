@@ -29,7 +29,7 @@ class PassiveBoard extends Component {
 PassiveBoard.propTypes = {
   unitsOnBoard: PropTypes.array,
   moveUnit: PropTypes.func,
-  myId: PropTypes.string,
+  myId: PropTypes.number,
 };
 
 export default PassiveBoard;

@@ -6,6 +6,7 @@ import { BoardWrapper } from "./Board.styled";
 import board from "common/consts/board";
 import slots from "common/consts/slots";
 import giveActions from "common/utils/giveActions";
+import isRoundOver from "common/utils/isRoundOver";
 
 class ActiveBoard extends Component {
   state = {
@@ -14,17 +15,47 @@ class ActiveBoard extends Component {
   };
 
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({ isActive: true });
-    }, 3000);
+    // setTimeout(() => {
+    //   this.setState({ isActive: true });
+    // }, 3000);
+    this.setState({ isActive: true });
   }
 
   attackUnit = unitWithAction => {
-    console.log("ATTACK UNIT", unitWithAction);
+    const newUnits = this.state.unitsWithActions
+      .map(unit =>
+        unit.id === unitWithAction.action.target.id
+          ? {
+              ...unit,
+              health: unit.health - unitWithAction.damage,
+            }
+          : unit,
+      )
+      .filter(unit => unit.health > 0);
+
+    const unitsWithActions = giveActions(newUnits);
+    this.setState({
+      unitsWithActions,
+    });
+
+    if (isRoundOver(unitsWithActions)) {
+      console.log("FIGHT FINISHED");
+    }
   };
 
   moveUnit = unitWithAction => {
-    console.log("MOVE UNIT", unitWithAction);
+    const newUnits = this.state.unitsWithActions.map(unit =>
+      unit.id === unitWithAction.id
+        ? {
+            ...unit,
+            slotId: unitWithAction.action.target,
+          }
+        : unit,
+    );
+
+    this.setState({
+      unitsWithActions: giveActions(newUnits),
+    });
   };
 
   render() {
@@ -42,6 +73,7 @@ class ActiveBoard extends Component {
               coordinates={slots[unit.slotId].coordinates}
               unitWithAction={unit}
               attackUnit={this.attackUnit}
+              moveUnit={this.moveUnit}
               isActive={isActive}
             />
           ))}
@@ -53,7 +85,7 @@ class ActiveBoard extends Component {
 
 ActiveBoard.propTypes = {
   unitsOnBoard: PropTypes.array,
-  myId: PropTypes.string,
+  myId: PropTypes.number,
 };
 
 export default ActiveBoard;

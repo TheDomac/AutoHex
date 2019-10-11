@@ -4,8 +4,6 @@ import actionTypes from "common/consts/actionTypes";
 import isRoundOver from "common/utils/isRoundOver";
 
 const MOVE_UNIT = "game/MOVE_UNIT";
-const MOVE_UNITS = "game/MOVE_UNITS";
-const ATTACK_UNIT = "game/ATTACK_UNIT";
 
 export const initialState = {
   unitsOnBoard,
@@ -28,36 +26,6 @@ export default function reducer(state = initialState, action) {
             : unit,
         ),
       };
-    case ATTACK_UNIT: {
-      const newUnitsOnBoard = state.unitsOnBoard
-        .map(unit =>
-          unit.id === payload.unitWithAction.action.target.id
-            ? {
-                ...unit,
-                health: unit.health - payload.unitWithAction.damage,
-              }
-            : unit,
-        )
-        .filter(unit => unit.health > 0);
-
-      return {
-        ...state,
-        unitsOnBoard: newUnitsOnBoard,
-        isGamePlaying: !isRoundOver(newUnitsOnBoard),
-      };
-    }
-    case MOVE_UNITS: {
-      return {
-        ...state,
-        unitsOnBoard: state.unitsOnBoard.map((unit, i) => ({
-          ...unit,
-          slotId:
-            payload.unitsWithActions[i].action.type === actionTypes.MOVE
-              ? payload.unitsWithActions[i].action.target
-              : unit.slotId,
-        })),
-      };
-    }
     default:
       return state;
   }
@@ -67,15 +35,3 @@ export const moveUnit = (slotId, unitId) => ({
   type: MOVE_UNIT,
   payload: { slotId, unitId },
 });
-
-export const attackUnit = unitWithAction => ({
-  type: ATTACK_UNIT,
-  payload: { unitWithAction },
-});
-
-// export const moveUnits = () => (dispatch, getState) => {
-//   const state = getState();
-//   const unitsWithActions = getUnitsWithActions(state);
-
-//   dispatch({ type: MOVE_UNITS, payload: { unitsWithActions } });
-// };

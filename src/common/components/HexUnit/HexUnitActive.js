@@ -21,7 +21,7 @@ class HexUnitActive extends Component {
       this.attackUnit,
     );
 
-    this.checkForChangesInAction(prevProps, actionTypes.MOVE, 300, this.moveUnit);
+    this.checkForChangesInAction(prevProps, actionTypes.MOVE, 1000, this.moveUnit);
   }
 
   checkForChangesInAction = (prevProps, actionType, intervalDuration, intervalAction) => {
