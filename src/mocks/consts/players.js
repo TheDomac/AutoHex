@@ -1,3 +1,35 @@
 export const myId = 1;
 export const enemyId = 2;
-export const players = [{ id: myId }, { id: enemyId }];
+
+export const players = [
+  {
+    id: myId,
+    health: 100,
+    unitsOnBoard: [
+      {
+        id: 1,
+        championId: 1,
+        slotId: 118,
+        health: 100,
+        damage: 15,
+        attackSpeed: 0.7,
+        range: 1,
+      },
+    ],
+  },
+  {
+    id: enemyId,
+    health: 100,
+    unitsOnBoard: [
+      {
+        id: 2,
+        championId: 2,
+        slotId: 118,
+        health: 100,
+        damage: 15,
+        attackSpeed: 0.7,
+        range: 1,
+      },
+    ],
+  },
+];

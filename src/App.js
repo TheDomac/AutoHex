@@ -2,10 +2,14 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import HTML5Backend from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
+
+import { myId } from "mocks/consts/players";
+
 import ActiveBoard from "common/components/Board/ActiveBoard";
 import PassiveBoard from "common/components/Board/PassiveBoard";
+import generateUnitsForFight from "common/utils/generateUnitsForFight";
 
-import { getMyId, getUnitsOnBoard } from "selectors/game";
+import { getPlayers } from "selectors/game";
 import { moveUnit } from "reducers/game";
 
 class App extends Component {
@@ -16,18 +20,21 @@ class App extends Component {
   toggleIsGamePlaying = () => {
     this.setState({ isGamePlaying: !this.state.isGamePlaying });
   };
+
   render() {
+    const { players } = this.props;
+    console.log(generateUnitsForFight(players, myId));
     return (
       <DndProvider backend={HTML5Backend}>
         {!this.state.isGamePlaying && (
           <PassiveBoard
-            unitsOnBoard={this.props.unitsOnBoard}
+            unitsOnBoard={players.find(player => player.id === myId).unitsOnBoard}
             moveUnit={this.props.moveUnit}
             myId={this.props.myId}
           />
         )}
         {this.state.isGamePlaying && (
-          <ActiveBoard unitsOnBoard={this.props.unitsOnBoard} myId={this.props.myId} />
+          <ActiveBoard unitsOnBoard={generateUnitsForFight(players, myId)} myId={myId} />
         )}
         <button onClick={this.toggleIsGamePlaying}>
           Is game playing: {this.state.isGamePlaying ? "yes" : "no"}
@@ -38,8 +45,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  myId: getMyId(state),
-  unitsOnBoard: getUnitsOnBoard(state),
+  players: getPlayers(state),
 });
 
 const mapDispatchToProps = {

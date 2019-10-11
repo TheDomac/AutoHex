@@ -2,12 +2,7 @@ import { createSelector } from "reselect";
 
 export const getGame = state => state.game;
 
-export const getUnitsOnBoard = createSelector(
+export const getPlayers = createSelector(
   getGame,
-  game => game.unitsOnBoard,
-);
-
-export const getMyId = createSelector(
-  getGame,
-  game => game.myId,
+  game => game.players,
 );
