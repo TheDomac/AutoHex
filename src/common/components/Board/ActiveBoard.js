@@ -7,10 +7,12 @@ import board from "common/consts/board";
 import slots from "common/consts/slots";
 import giveActions from "common/utils/giveActions";
 import isRoundOver from "common/utils/isRoundOver";
+import { generateUnitsForFight, sortPlayers } from "common/utils/generateUnitsForFight";
 
 class ActiveBoard extends Component {
   state = {
-    unitsWithActions: giveActions(this.props.unitsOnBoard),
+    players: sortPlayers(this.props.players, this.props.myId),
+    unitsWithActions: giveActions(generateUnitsForFight(this.props.players, this.props.myId)),
     isActive: false,
   };
 
@@ -59,10 +61,11 @@ class ActiveBoard extends Component {
   };
 
   render() {
-    const { unitsWithActions, isActive } = this.state;
+    const { unitsWithActions, isActive, players } = this.state;
     const { myId } = this.props;
     return (
       <>
+        {players[0].nickName}
         <BoardWrapper>
           {board.map(slot => (
             <HexSlot key={slot.id} slot={slot} myId={myId} />
@@ -78,13 +81,14 @@ class ActiveBoard extends Component {
             />
           ))}
         </BoardWrapper>
+        {players[1].nickName}
       </>
     );
   }
 }
 
 ActiveBoard.propTypes = {
-  unitsOnBoard: PropTypes.array,
+  players: PropTypes.array,
   myId: PropTypes.number,
 };
 

@@ -1,24 +1,11 @@
-const generateUnitsForFight = (players, myId) => {
-  const isPlayerWithMyId = players.some(player => player.id === myId);
+import { sortBy } from "lodash";
 
-  if (isPlayerWithMyId) {
-    return players.reduce(
-      (prev, player) =>
-        player.id !== myId
-          ? [
-              ...prev,
-              ...player.unitsOnBoard.map(unit => ({
-                ...unit,
-                playerId: player.id,
-                slotId: 122 - unit.slotId,
-              })),
-            ]
-          : [...prev, ...player.unitsOnBoard.map(unit => ({ ...unit, playerId: player.id }))],
-      [],
-    );
-  }
+export const sortPlayers = (players, myId) => sortBy(players, [player => player.id === myId]);
 
-  return players.reduce(
+export const generateUnitsForFight = (players, myId) => {
+  const sortedPlayers = sortPlayers(players, myId);
+
+  return sortedPlayers.reduce(
     (prev, player, i) =>
       i === 0
         ? [
@@ -33,5 +20,3 @@ const generateUnitsForFight = (players, myId) => {
     [],
   );
 };
-
-export default generateUnitsForFight;

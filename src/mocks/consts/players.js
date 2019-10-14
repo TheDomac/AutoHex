@@ -5,6 +5,7 @@ export const players = [
   {
     id: myId,
     health: 100,
+    nickName: "TheDomac",
     unitsOnBoard: [
       {
         id: 1,
@@ -20,6 +21,7 @@ export const players = [
   {
     id: enemyId,
     health: 100,
+    nickName: "enemy1",
     unitsOnBoard: [
       {
         id: 2,

@@ -7,10 +7,11 @@ import { myId } from "mocks/consts/players";
 
 import ActiveBoard from "common/components/Board/ActiveBoard";
 import PassiveBoard from "common/components/Board/PassiveBoard";
-import generateUnitsForFight from "common/utils/generateUnitsForFight";
 
 import { getPlayers } from "selectors/game";
 import { moveUnit } from "reducers/game";
+
+import { sortPlayers } from "common/utils/generateUnitsForFight";
 
 class App extends Component {
   state = {
@@ -23,7 +24,6 @@ class App extends Component {
 
   render() {
     const { players } = this.props;
-    console.log(generateUnitsForFight(players, myId));
     return (
       <DndProvider backend={HTML5Backend}>
         {!this.state.isGamePlaying && (
@@ -33,9 +33,7 @@ class App extends Component {
             myId={this.props.myId}
           />
         )}
-        {this.state.isGamePlaying && (
-          <ActiveBoard unitsOnBoard={generateUnitsForFight(players, myId)} myId={myId} />
-        )}
+        {this.state.isGamePlaying && <ActiveBoard players={players} myId={myId} />}
         <button onClick={this.toggleIsGamePlaying}>
           Is game playing: {this.state.isGamePlaying ? "yes" : "no"}
         </button>
