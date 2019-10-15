@@ -8,35 +8,26 @@ import { myId } from "mocks/consts/players";
 import ActiveBoard from "common/components/Board/ActiveBoard";
 import PassiveBoard from "common/components/Board/PassiveBoard";
 
-import { getPlayers } from "selectors/game";
-import { moveUnit } from "reducers/game";
-
-import { sortPlayers } from "common/utils/generateUnitsForFight";
+import { getPlayers, getIsGamePlaying, getFights } from "selectors/game";
+import { moveUnit, resumeGame } from "reducers/game";
 
 class App extends Component {
-  state = {
-    isGamePlaying: false,
-  };
-
-  toggleIsGamePlaying = () => {
-    this.setState({ isGamePlaying: !this.state.isGamePlaying });
-  };
-
   render() {
-    const { players } = this.props;
+    const { players, isGamePlaying, fights } = this.props;
     return (
       <DndProvider backend={HTML5Backend}>
-        {!this.state.isGamePlaying && (
-          <PassiveBoard
-            unitsOnBoard={players.find(player => player.id === myId).unitsOnBoard}
-            moveUnit={this.props.moveUnit}
-            myId={this.props.myId}
-          />
+        {!isGamePlaying && (
+          <>
+            <PassiveBoard
+              unitsOnBoard={players.find(player => player.id === myId).unitsOnBoard}
+              moveUnit={this.props.moveUnit}
+              myId={this.props.myId}
+            />
+            <button onClick={this.props.resumeGame}>Resume game</button>
+          </>
         )}
-        {this.state.isGamePlaying && <ActiveBoard players={players} myId={myId} />}
-        <button onClick={this.toggleIsGamePlaying}>
-          Is game playing: {this.state.isGamePlaying ? "yes" : "no"}
-        </button>
+        {isGamePlaying &&
+          fights.map(fight => <ActiveBoard key={fight.id} fight={fight} myId={myId} />)}
       </DndProvider>
     );
   }
@@ -44,10 +35,13 @@ class App extends Component {
 
 const mapStateToProps = state => ({
   players: getPlayers(state),
+  fights: getFights(state),
+  isGamePlaying: getIsGamePlaying(state),
 });
 
 const mapDispatchToProps = {
   moveUnit,
+  resumeGame,
 };
 
 export default connect(

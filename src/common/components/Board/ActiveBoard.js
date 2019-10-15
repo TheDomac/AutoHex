@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import HexSlot from "common/components/HexSlot/HexSlot";
 import HexUnitActive from "common/components/HexUnit/HexUnitActive";
@@ -9,10 +10,12 @@ import giveActions from "common/utils/giveActions";
 import isRoundOver from "common/utils/isRoundOver";
 import { generateUnitsForFight, sortPlayers } from "common/utils/generateUnitsForFight";
 
+import { finishFight } from "reducers/game";
+
 class ActiveBoard extends Component {
   state = {
-    players: sortPlayers(this.props.players, this.props.myId),
-    unitsWithActions: giveActions(generateUnitsForFight(this.props.players, this.props.myId)),
+    players: sortPlayers(this.props.fight.players, this.props.myId),
+    unitsWithActions: giveActions(generateUnitsForFight(this.props.fight.players, this.props.myId)),
     isActive: false,
   };
 
@@ -41,7 +44,11 @@ class ActiveBoard extends Component {
     });
 
     if (isRoundOver(unitsWithActions)) {
-      console.log("FIGHT FINISHED");
+      const fightLoserId = unitsWithActions[0]
+        ? this.state.players.find(player => player.id !== unitsWithActions[0].playerId).id
+        : this.state.players[1].id;
+      const damage = 3 + unitsWithActions.length * 3;
+      this.props.finishFight(this.props.fightId, fightLoserId, damage);
     }
   };
 
@@ -65,7 +72,7 @@ class ActiveBoard extends Component {
     const { myId } = this.props;
     return (
       <>
-        {players[0].nickName}
+        {players[0].nickName} - {players[0].health}
         <BoardWrapper>
           {board.map(slot => (
             <HexSlot key={slot.id} slot={slot} myId={myId} />
@@ -81,7 +88,7 @@ class ActiveBoard extends Component {
             />
           ))}
         </BoardWrapper>
-        {players[1].nickName}
+        {players[1].nickName} - {players[1].health}
       </>
     );
   }
@@ -92,4 +99,11 @@ ActiveBoard.propTypes = {
   myId: PropTypes.number,
 };
 
-export default ActiveBoard;
+const mapDispatchToProps = {
+  finishFight,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ActiveBoard);

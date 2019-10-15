@@ -1,5 +1,4 @@
 export const myId = 1;
-export const enemyId = 2;
 
 export const players = [
   {
@@ -19,7 +18,7 @@ export const players = [
     ],
   },
   {
-    id: enemyId,
+    id: 2,
     health: 100,
     nickName: "enemy1",
     unitsOnBoard: [

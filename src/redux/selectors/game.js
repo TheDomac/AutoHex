@@ -6,3 +6,13 @@ export const getPlayers = createSelector(
   getGame,
   game => game.players,
 );
+
+export const getIsGamePlaying = createSelector(
+  getGame,
+  game => game.isGamePlaying,
+);
+
+export const getFights = createSelector(
+  getGame,
+  game => game.fights,
+);
