@@ -1,18 +1,12 @@
-import slots from "common/consts/slots";
+import pureSlots from "common/consts/pureSlots";
 
-const getAngleBetweenAdjecentSlots = (mySlotId, targetSlotId) => {
-  const index = slots[mySlotId].adjacentSlotsIds.findIndex(slotId => slotId === targetSlotId);
+const calculateTargetAngle = (mySlotId, targetSlotId) => {
+  const mySlotX = pureSlots[mySlotId].coordinates[0];
+  const mySlotY = -1 * pureSlots[mySlotId].coordinates[1];
+  const targetSlotX = pureSlots[targetSlotId].coordinates[0];
+  const targetSlotY = -1 * pureSlots[targetSlotId].coordinates[1];
 
-  return 30 + index * 60;
+  return (Math.atan2(targetSlotY - mySlotY, targetSlotX - mySlotX) * 180) / Math.PI;
 };
-
-const calculateTargetAngle = (mySlotId, targetSlotId, path) =>
-  path.reduce((prev, slot, i) => {
-    if (!path[i + 1]) {
-      return prev + getAngleBetweenAdjecentSlots(slot, targetSlotId) / i;
-    }
-
-    return prev + getAngleBetweenAdjecentSlots(slot, path[i + 1]) / i;
-  }, calculateTargetAngle(mySlotId, path[0] || targetSlotId));
 
 export default calculateTargetAngle;
