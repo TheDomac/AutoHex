@@ -1,7 +1,7 @@
-import pureSlots from "./pureSlots";
+import slots from "./slots";
 
 import { keys } from "lodash";
 
-const board = keys(pureSlots).map(id => ({ id: Number(id), ...pureSlots[id] }));
+const board = keys(slots).map(id => ({ id: Number(id), ...slots[id] }));
 
 export default board;

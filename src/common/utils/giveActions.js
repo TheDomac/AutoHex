@@ -1,5 +1,5 @@
 import actionTypes from "common/consts/actionTypes";
-import pureSlots from "common/consts/pureSlots";
+import slots from "common/consts/slots";
 
 import getClosestEnemyUnits from "common/utils/getClosestEnemyUnits";
 import isRoundOver from "common/utils/isRoundOver";
@@ -42,7 +42,7 @@ const giveActions = unitsOnBoard => {
       prevUnit =>
         prevUnit.playerId !== unit.playerId &&
         prevUnit.action.type === actionTypes.MOVE &&
-        pureSlots[unit.slotId].adjacentSlotsIds.includes(prevUnit.action.target),
+        slots[unit.slotId].adjacentSlotsIds.includes(prevUnit.action.target),
     );
     // if blocked by taken slots or enemy coming
     if (closestEnemyUnits.length === 0 || prevEnemyUnitsWithTargetAdjacentSlotId.length > 0) {

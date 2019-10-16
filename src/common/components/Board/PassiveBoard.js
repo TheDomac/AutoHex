@@ -4,7 +4,7 @@ import HexSlot from "common/components/HexSlot/HexSlot";
 import HexUnitDraggable from "common/components/HexUnit/HexUnitDraggable";
 import { BoardWrapper } from "./Board.styled";
 import board from "common/consts/board";
-import pureSlots from "common/consts/pureSlots";
+import slots from "common/consts/slots";
 
 class PassiveBoard extends Component {
   render() {
@@ -17,7 +17,7 @@ class PassiveBoard extends Component {
         {unitsOnBoard.map(unit => (
           <HexUnitDraggable
             key={unit.id}
-            coordinates={pureSlots[unit.slotId].coordinates}
+            coordinates={slots[unit.slotId].coordinates}
             unit={unit}
           />
         ))}

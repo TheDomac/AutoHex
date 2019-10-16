@@ -1,10 +1,10 @@
 import { last } from "lodash";
 
-import pureSlots from "common/consts/pureSlots";
+import slots from "common/consts/slots";
 
 const reduceSlotIds = (accumulatedPaths, endSlotId) => {
   const connectedTwoPoints = accumulatedPaths.paths.filter(path =>
-    pureSlots[last(path)].adjacentSlotsIds.includes(endSlotId),
+    slots[last(path)].adjacentSlotsIds.includes(endSlotId),
   );
 
   if (connectedTwoPoints.length > 0) {
@@ -13,7 +13,7 @@ const reduceSlotIds = (accumulatedPaths, endSlotId) => {
     const reduced = accumulatedPaths.paths.reduce(
       (prev, path) => {
         const lastId = last(path);
-        const newPathsFromThisPath = pureSlots[lastId].adjacentSlotsIds.map(id => [...path, id]);
+        const newPathsFromThisPath = slots[lastId].adjacentSlotsIds.map(id => [...path, id]);
 
         return {
           paths: [...prev.paths, ...newPathsFromThisPath],
@@ -38,11 +38,11 @@ const reduceSlotIds = (accumulatedPaths, endSlotId) => {
 };
 
 const getPathsBetweenTwoSlots = (startSlotId, endSlotId) => {
-  if (pureSlots[startSlotId].adjacentSlotsIds.includes(endSlotId)) {
+  if (slots[startSlotId].adjacentSlotsIds.includes(endSlotId)) {
     return [[]];
   }
 
-  const accumulatedPaths = pureSlots[startSlotId].adjacentSlotsIds.map(id => [id]);
+  const accumulatedPaths = slots[startSlotId].adjacentSlotsIds.map(id => [id]);
 
   return reduceSlotIds({ paths: accumulatedPaths, idsCheckedSoFar: [startSlotId] }, endSlotId);
 };

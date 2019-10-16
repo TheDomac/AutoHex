@@ -1,11 +1,11 @@
 import { last } from "lodash";
 
-import pureSlots from "common/consts/pureSlots";
+import slots from "common/consts/slots";
 
 const reduceSlotIds = (accumulatedPaths, enemyUnitsOnBoard, unavailableSlots) => {
   const connectedEnemyUnits = enemyUnitsOnBoard.reduce((prev, enemyUnit) => {
     const foundPaths = accumulatedPaths.paths.filter(path =>
-      pureSlots[enemyUnit.slotId].adjacentSlotsIds.includes(last(path)),
+      slots[enemyUnit.slotId].adjacentSlotsIds.includes(last(path)),
     );
 
     return foundPaths.length > 0
@@ -25,7 +25,7 @@ const reduceSlotIds = (accumulatedPaths, enemyUnitsOnBoard, unavailableSlots) =>
     const reduced = accumulatedPaths.paths.reduce(
       (prev, path) => {
         const lastId = last(path);
-        const newPathsFromThisPath = pureSlots[lastId].adjacentSlotsIds.map(id => [...path, id]);
+        const newPathsFromThisPath = slots[lastId].adjacentSlotsIds.map(id => [...path, id]);
 
         return {
           paths: [...prev.paths, ...newPathsFromThisPath],
@@ -60,7 +60,7 @@ const reduceSlotIds = (accumulatedPaths, enemyUnitsOnBoard, unavailableSlots) =>
 };
 
 const getClosestEnemyUnits = (unit, unitsOnBoard, unavailableSlots) => {
-  const accumulatedPaths = pureSlots[unit.slotId].adjacentSlotsIds
+  const accumulatedPaths = slots[unit.slotId].adjacentSlotsIds
     .filter(id => !unavailableSlots.includes(id))
     .map(id => [id]);
 
