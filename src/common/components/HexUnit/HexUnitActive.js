@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import Hexagon from "common/components/Hexagon/Hexagon";
 import actionTypes from "common/consts/actionTypes";
+import { X_DIFF, Y_DIFF } from "common/consts/hexSlotPositionDiffs";
 import { Health, Arrow, ArrowWrapper } from "./HexUnit.styled";
 import calculateTargetAngle from "common/utils/calculateTargetAngle";
 
@@ -64,7 +65,7 @@ class HexUnitActive extends Component {
         position: absolute;
         z-index: 4;
         transition: 300ms;
-        transform: translate(${88 * this.props.coordinates[0]}px, ${76.75 *
+        transform: translate(${X_DIFF * this.props.coordinates[0]}px, ${Y_DIFF *
           this.props.coordinates[1]}px);
         `}
         backgroundColor={champions[this.props.unitWithAction.championId].backgroundColor}

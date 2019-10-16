@@ -2,6 +2,7 @@ import React from "react";
 import { useDrag } from "react-dnd";
 
 import Hexagon from "common/components/Hexagon/Hexagon";
+import { X_DIFF, Y_DIFF } from "common/consts/hexSlotPositionDiffs";
 import { Health } from "./HexUnit.styled";
 
 import champions from "mocks/consts/champions";
@@ -18,7 +19,7 @@ function HexUnitDraggable({ unit, coordinates }) {
     <Hexagon
       styleProps={`position: absolute; z-index: 4;
       transition: 300ms;
-      transform: translate(${88 * coordinates[0]}px, ${76.75 * coordinates[1]}px);`}
+      transform: translate(${X_DIFF * coordinates[0]}px, ${Y_DIFF * coordinates[1]}px);`}
       backgroundColor={champions[unit.championId].backgroundColor}
       ref={drag}
     >

@@ -1,6 +1,7 @@
 import React from "react";
 import { useDrop } from "react-dnd";
 
+import { X_DIFF, Y_DIFF } from "common/consts/hexSlotPositionDiffs";
 import Hexagon from "common/components/Hexagon/Hexagon";
 
 function HexSlot({ slot, myId, moveUnit }) {
@@ -20,7 +21,7 @@ function HexSlot({ slot, myId, moveUnit }) {
       ref={drop}
       backgroundColor={isOver && canDrop && "yellow"}
       borderColor={canDrop ? "green" : "#111"}
-      styleProps={`position: absolute; left: ${88 * slot.coordinates[0]}px; top:${76.75 *
+      styleProps={`position: absolute; left: ${X_DIFF * slot.coordinates[0]}px; top:${Y_DIFF *
         slot.coordinates[1]}px`}
     >
       {slot.id}
