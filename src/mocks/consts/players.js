@@ -11,7 +11,7 @@ export const players = [
         championId: 1,
         slotId: 118,
         health: 100,
-        damage: 15,
+        damage: 30,
         attackSpeed: 0.7,
         range: 1,
       },

@@ -78,7 +78,7 @@ class HexUnitActive extends Component {
               this.props.unitWithAction.action.target.slotId,
             )}
           >
-            <Arrow attackSpeed={1 / this.props.unitWithAction.attackSpeed}>↑</Arrow>
+            <Arrow attackSpeed={1 / this.props.unitWithAction.attackSpeed}>></Arrow>
           </ArrowWrapper>
         )}
       </Hexagon>

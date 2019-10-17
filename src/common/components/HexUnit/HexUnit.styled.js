@@ -19,7 +19,7 @@ from {
 }
 
 to {
-  transform: translate(0, -20px);
+  transform: translate(20px, 0);
   opacity: 1;
 }
 `;

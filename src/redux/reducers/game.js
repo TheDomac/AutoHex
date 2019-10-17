@@ -40,7 +40,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         isGamePlaying: true,
         // fights: generateFights(state.players, state.fightSetupIndex)
-        fights: [{ id: 1, players: state.players }],
+        fights: [{ id: 1, players: state.players, isFinished: false }],
       };
     case FINISH_FIGHT: {
       const newFights = state.fights.map(fight =>

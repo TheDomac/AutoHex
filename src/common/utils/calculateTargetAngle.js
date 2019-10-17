@@ -6,7 +6,7 @@ const calculateTargetAngle = (mySlotId, targetSlotId) => {
   const y1 = Y_DIFF * -1 * slots[mySlotId].coordinates[1];
   const x2 = X_DIFF * slots[targetSlotId].coordinates[0];
   const y2 = Y_DIFF * -1 * slots[targetSlotId].coordinates[1];
-  const result = (Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI;
+  const result = ((Math.atan2(y2 - y1, x2 - x1) * 180) / Math.PI) * -1;
 
   return Math.round(result);
 };

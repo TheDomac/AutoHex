@@ -48,7 +48,10 @@ class ActiveBoard extends Component {
         ? this.state.players.find(player => player.id !== unitsWithActions[0].playerId).id
         : this.state.players[1].id;
       const damage = 3 + unitsWithActions.length * 3;
-      this.props.finishFight(this.props.fightId, fightLoserId, damage);
+
+      setTimeout(() => {
+        this.props.finishFight(this.props.fightId, fightLoserId, damage);
+      }, 3000);
     }
   };
 
