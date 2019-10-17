@@ -1,33 +1,38 @@
 import styled, { keyframes } from "styled-components";
 
-export const Health = styled.span`
-  position: absolute;
-  z-index: 4;
+export const Health = styled.div`
   color: green;
-`;
-
-export const ArrowWrapper = styled.span`
   position: absolute;
-  z-index: 4;
-  transform: rotate(${props => props.rotateValue}deg);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const move = keyframes`
 from {
-  transform: translate(0, 0);
+  transform: translate(-50%, -50%);
   opacity: 0;
 }
 
 to {
-  transform: translate(20px, 0);
+  transform: translate(50%, -50%);
   opacity: 1;
 }
 `;
 
-export const Arrow = styled.span`
+export const ArrowWrapper = styled.div`
   position: absolute;
-  z-index: 4;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform: rotate(90deg);
+`;
+
+export const ArrowWrapper2 = styled.div`
+  animation: ${move} ${props => props.attackSpeed}s linear infinite;
+`;
+
+export const Arrow = styled.span`
   color: green;
   font-size: 55px;
-  animation: ${move} ${props => props.attackSpeed}s linear infinite;
 `;

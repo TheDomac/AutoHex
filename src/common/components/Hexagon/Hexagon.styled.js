@@ -2,9 +2,6 @@ import styled from "styled-components";
 
 export const HexMain = styled.div`
   background-color: ${props => (props.backgroundColor ? props.backgroundColor : "")};
-  display: inline-block;
-  text-align: left;
-  float: left;
   position: relative;
   background-position: 50%;
   border-left: 4px solid ${props => (props.borderColor ? props.borderColor : "")};
@@ -86,4 +83,11 @@ export const HexBottom = styled.div`
     height: 43.8786204584px;
     transform: rotate(45deg) scaleY(1.7321) translateY(-21.9393px);
   }
+`;
+
+export const HexChildren = styled.div`
+  position: absolute;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
 `;
