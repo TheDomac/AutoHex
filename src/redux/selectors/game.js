@@ -16,3 +16,8 @@ export const getFights = createSelector(
   getGame,
   game => game.fights,
 );
+
+export const getSetSelectedPlayerId = createSelector(
+  getGame,
+  game => game.selectedPlayerId,
+);

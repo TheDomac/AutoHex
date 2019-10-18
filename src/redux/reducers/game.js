@@ -5,9 +5,11 @@ import { players, myId } from "mocks/consts/players";
 const MOVE_UNIT = "game/MOVE_UNIT";
 const RESUME_GAME = "game/RESUME_GAME";
 const FINISH_FIGHT = "game/FINISH_FIGHT";
+const SET_SELECTED_PLAYER = "game/SET_SELECTED_PLAYER";
 
 export const initialState = {
   players,
+  selectedPlayerId: myId,
   fights: [],
   // fightSetupIndex: 0,
   isGamePlaying: false,
@@ -41,6 +43,11 @@ export default function reducer(state = initialState, action) {
         isGamePlaying: true,
         // fights: generateFights(state.players, state.fightSetupIndex)
         fights: [{ id: 1, players: state.players, isFinished: false }],
+      };
+    case SET_SELECTED_PLAYER:
+      return {
+        ...state,
+        selectedPlayerId: payload.selectedPlayerId,
       };
     case FINISH_FIGHT: {
       const newFights = state.fights.map(fight =>
@@ -83,6 +90,11 @@ export const moveUnit = (slotId, unitId) => ({
 export const finishFight = (fightId, fightLoserId, damage) => ({
   type: FINISH_FIGHT,
   payload: { fightId, fightLoserId, damage },
+});
+
+export const setSelectedPlayer = selectedPlayerId => ({
+  type: SET_SELECTED_PLAYER,
+  payload: { selectedPlayerId },
 });
 
 export const resumeGame = () => ({
