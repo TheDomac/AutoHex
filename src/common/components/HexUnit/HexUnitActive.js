@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 
 import Hexagon from "common/components/Hexagon/Hexagon";
+import Arrow from "common/components/Arrow/Arrow";
 import actionTypes from "common/consts/actionTypes";
 import { X_DIFF, Y_DIFF } from "common/consts/hexSlotPositionDiffs";
-import { Health, Arrow, ArrowWrapper } from "./HexUnit.styled";
+import { Health } from "./HexUnit.styled";
 import calculateTargetAngle from "common/utils/calculateTargetAngle";
 
 import champions from "mocks/consts/champions";
@@ -72,15 +73,13 @@ class HexUnitActive extends Component {
       >
         <Health>{this.props.unitWithAction.health}</Health>
         {this.props.unitWithAction.action.type === actionTypes.ATTACK && (
-          <ArrowWrapper
+          <Arrow
             rotateValue={calculateTargetAngle(
               this.props.unitWithAction.slotId,
               this.props.unitWithAction.action.target.slotId,
             )}
             attackSpeed={1 / this.props.unitWithAction.attackSpeed}
-          >
-            <Arrow>></Arrow>
-          </ArrowWrapper>
+          />
         )}
       </Hexagon>
     );
