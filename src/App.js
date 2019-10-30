@@ -7,6 +7,7 @@ import { myId } from "mocks/consts/players";
 
 import ActiveBoard from "common/components/Board/ActiveBoard";
 import PassiveBoard from "common/components/Board/PassiveBoard";
+import Players from "common/components/Players/Players";
 
 import { getPlayers, getIsGamePlaying, getFights, getSetSelectedPlayerId } from "selectors/game";
 import { moveUnit, resumeGame, setSelectedPlayer } from "reducers/game";
@@ -39,11 +40,7 @@ class App extends Component {
         )}
         {isGamePlaying &&
           fights.map(fight => <ActiveBoard key={fight.id} fight={fight} myId={myId} />)}
-        {players.map(player => (
-          <button key={player.id} onClick={this.setSelectedPlayer(player.id)}>
-            {player.nickName}
-          </button>
-        ))}
+        <Players players={players} setSelectedPlayer={this.setSelectedPlayer} />
       </DndProvider>
     );
   }
