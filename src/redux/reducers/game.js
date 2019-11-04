@@ -1,6 +1,6 @@
 import { players, myId } from "mocks/consts/players";
 
-// import generateFights from "common/utils/generateFights";
+import generateFights from "common/utils/generateFights";
 
 const MOVE_UNIT = "game/MOVE_UNIT";
 const RESUME_GAME = "game/RESUME_GAME";
@@ -11,7 +11,7 @@ export const initialState = {
   players,
   selectedPlayerId: myId,
   fights: [],
-  // fightSetupIndex: 0,
+  fightSetupIndex: 1,
   isGamePlaying: false,
 };
 
@@ -37,38 +37,46 @@ export default function reducer(state = initialState, action) {
             : player,
         ),
       };
-    case RESUME_GAME:
+    case RESUME_GAME: {
+      const activePlayers = state.players.filter(player => player.health > 0);
       return {
         ...state,
         isGamePlaying: true,
-        // fights: generateFights(state.players, state.fightSetupIndex)
-        fights: [{ id: 1, players: state.players, isFinished: false }],
+        fights: generateFights(activePlayers, state.fightSetupIndex),
+        fightSetupIndex:
+          state.fightSetupIndex + 1 === activePlayers.length
+            ? state.fightSetupIndex + 2
+            : state.fightSetupIndex + 1,
       };
+    }
     case SET_SELECTED_PLAYER:
       return {
         ...state,
         selectedPlayerId: payload.selectedPlayerId,
       };
     case FINISH_FIGHT: {
-      const newFights = state.fights.map(fight =>
-        fight.id === payload.fightId
-          ? {
-              ...fight,
-              isFinished: true,
-            }
-          : fight,
+      const fightIndex = state.fights.findIndex(f => f.id === payload.fightId);
+      const fight = state.fights[fightIndex];
+      const newFights = [
+        ...state.fights.slice(0, fightIndex),
+        { ...fight, isFinished: true },
+        ...state.fights.slice(fightIndex + 1),
+      ];
+
+      const isFightLoserAndNotACopy = fight.players.some(
+        player => player.id === payload.fightLoserId && !player.isCopy,
       );
 
-      const isGamePlaying = newFights.every(fight => fight.isFinished);
-
       const newPlayers = state.players.map(player =>
-        player.id === payload.fightLoserId
+        player.id === payload.fightLoserId && isFightLoserAndNotACopy
           ? {
               ...player,
               health: player.health - payload.damage,
             }
           : player,
       );
+
+      const isGamePlaying = !newFights.every(f => f.isFinished);
 
       return {
         ...state,

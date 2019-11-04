@@ -50,7 +50,7 @@ class ActiveBoard extends Component {
       const damage = 3 + unitsWithActions.length * 3;
 
       setTimeout(() => {
-        this.props.finishFight(this.props.fightId, fightLoserId, damage);
+        this.props.finishFight(this.props.fight.id, fightLoserId, damage);
       }, 3000);
     }
   };
@@ -75,7 +75,9 @@ class ActiveBoard extends Component {
     const { myId } = this.props;
     return (
       <>
-        {players[0].nickName} - {players[0].health}
+        <p>
+          {players[0].nickName} - {players[0].health}
+        </p>
         <BoardWrapper>
           {board.map(slot => (
             <HexSlot key={slot.id} slot={slot} myId={myId} />
@@ -91,7 +93,9 @@ class ActiveBoard extends Component {
             />
           ))}
         </BoardWrapper>
-        {players[1].nickName} - {players[1].health}
+        <p>
+          {players[1].nickName} - {players[1].health}
+        </p>
       </>
     );
   }

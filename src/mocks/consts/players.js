@@ -33,4 +33,29 @@ export const players = [
       },
     ],
   },
+  {
+    id: 3,
+    health: 100,
+    nickName: "enemy2",
+    unitsOnBoard: [
+      {
+        id: 3,
+        championId: 2,
+        slotId: 118,
+        health: 100,
+        damage: 15,
+        attackSpeed: 0.7,
+        range: 1,
+      },
+      {
+        id: 4,
+        championId: 2,
+        slotId: 119,
+        health: 100,
+        damage: 15,
+        attackSpeed: 0.7,
+        range: 1,
+      },
+    ],
+  },
 ];
